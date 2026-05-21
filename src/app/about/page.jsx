@@ -5,8 +5,8 @@ import Box from "@mui/material/Box";
 import { Grid, Button } from "@mui/material";
 import image from "assets/images/about.png";
 import image2 from "assets/images/Our culture.png";
-import vision from "assets/images/vision.png";
-import misiion from "assets/images/misiion.png";
+import vision from "assets/images/Asset1.svg";
+import missionFallback from "assets/images/Asset3.svg";
 import logo from "assets/images/Logo.svg";
 import bg from "assets/images/Asset2.svg";
 import { useTranslation } from "react-i18next";
@@ -163,7 +163,7 @@ const welcome = sections[31];
                   }}
                 >
                   <img
-                    src={visionData?.image_url || misiion}
+                    src={visionData?.image_url || missionFallback}
                     style={{
                       borderRadius: "12px",
                       objectFit: "contain",
