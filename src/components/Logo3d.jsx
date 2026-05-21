@@ -3,7 +3,7 @@ import { Canvas, useThree } from "@react-three/fiber";
 import { useGLTF } from "@react-three/drei";
 import { useMotionValueEvent } from "framer-motion";
 import * as THREE from "three";
-import logoModel from "assets/model/3dlogo.glb?url";
+import logoModel from "assets/model/3dlogo.gLb?url";
 
 const logoMaterial = new THREE.MeshStandardMaterial({
   color: "#FE572A",
