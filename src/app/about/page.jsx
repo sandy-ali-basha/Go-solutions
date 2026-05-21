@@ -7,7 +7,7 @@ import image from "assets/images/about.png";
 import image2 from "assets/images/Our culture.png";
 import vision from "assets/images/vision.png";
 import misiion from "assets/images/misiion.png";
-import logo from "assets/images/logo.svg";
+import logo from "assets/images/Logo.svg";
 import bg from "assets/images/Asset2.svg";
 import { useTranslation } from "react-i18next";
 import video from "assets/videos/DawaaAlHayatValues.m4v";

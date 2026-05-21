@@ -5,7 +5,7 @@ import { Mousewheel } from "swiper/modules";
 
 import "swiper/css";
 
-import logo from "assets/images/logo.svg";
+import logo from "assets/images/Logo.svg";
 
 const items = [
   "Tech Solutions",
