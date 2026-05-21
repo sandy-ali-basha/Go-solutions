@@ -16,7 +16,7 @@ const items = [
 
 export default function ServicesSwiperSection() {
   const [isHovering, setIsHovering] = useState(false);
-  console.log("isHovering:", isHovering);
+
   return (
     <Box
       onMouseEnter={() => setIsHovering(true)}
