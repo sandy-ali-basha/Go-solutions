@@ -6,8 +6,9 @@ import {
   useSpring,
   useTransform,
 } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import oStar from "assets/images/icons/oStar.svg";
+import CursorFollower from "./CursorFollower";
 
 const MotionBox = motion(Box);
 
@@ -55,6 +56,7 @@ function AnimatedText({ firstText, secondText }) {
           flexWrap: "wrap",
           overflow: "clip",
         }}
+   
       >
         {/* FIRST TEXT */}
         <motion.span

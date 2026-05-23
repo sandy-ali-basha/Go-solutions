@@ -10,9 +10,9 @@ function AnimatedButton({ children = "Submit", onClick, sx = {}, ...props }) {
     target: ref,
     offset: ["start 92%", "center 62%"],
   });
-  const opacity = useTransform(scrollYProgress, [0, 1], [0, 1]);
+  const opacity = useTransform(scrollYProgress, [0, 1], [0.5, 1]);
   const scale = useTransform(scrollYProgress, [0, 1], [0.86, 1]);
-  const y = useTransform(scrollYProgress, [0, 1], [26, 0]);
+  const y = useTransform(scrollYProgress, [0, 1], [0, 0]);
 
   return (
     <MotionButton
@@ -75,16 +75,14 @@ function AnimatedButton({ children = "Submit", onClick, sx = {}, ...props }) {
         whileHover={{
           letterSpacing: "0.5px",
         }}
-
         transition={{
           duration: 0.3,
         }}
-
         style={{
           position: "relative",
           zIndex: 2,
-          textWrap:"nowrap",
-          display:"flex",
+          textWrap: "nowrap",
+          display: "flex",
         }}
       >
         {children}

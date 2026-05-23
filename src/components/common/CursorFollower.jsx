@@ -1,10 +1,8 @@
-import {
-  motion,
-  useMotionValue,
-  useSpring,
-} from "framer-motion";
+import React from "react";
+import { motion, useMotionValue, useSpring } from "framer-motion";
 import NorthEastIcon from "@mui/icons-material/NorthEast";
 import { Box } from "@mui/material";
+
 const MotionBox = motion(Box);
 
 export default function CursorFollower({ active }) {
@@ -23,12 +21,11 @@ export default function CursorFollower({ active }) {
 
   React.useEffect(() => {
     const moveCursor = (e) => {
-      mouseX.set(e.clientX - 50);
-      mouseY.set(e.clientY - 50);
+      mouseX.set(active ? e.clientX - 50 : e.clientX);
+      mouseY.set(active ? e.clientY - 50 : e.clientY);
     };
 
     window.addEventListener("mousemove", moveCursor);
-
     return () => {
       window.removeEventListener("mousemove", moveCursor);
     };
@@ -37,8 +34,8 @@ export default function CursorFollower({ active }) {
   return (
     <MotionBox
       animate={{
-        scale: active ? 1 : 0,
-        opacity: active ? 1 : 0,
+        scale: active ? 1 : 1,
+        opacity: active ? 1 : 1,
       }}
       transition={{
         duration: 0.25,
@@ -47,14 +44,14 @@ export default function CursorFollower({ active }) {
         position: "fixed",
         top: 0,
         left: 0,
-        width: 100,
-        height: 100,
+        width: active ? 100 : 10,
+        height: active ? 100 : 10,
         borderRadius: "50%",
         pointerEvents: "none",
-        // zIndex: 9999,
         overflow: "hidden",
-        background:
-          "linear-gradient(135deg, rgba(255, 91, 46, 0.66), rgba(255, 91, 46, 0.21))",
+        background: active
+          ? "linear-gradient(135deg, rgba(255, 91, 46, 0.66), rgba(255, 91, 46, 0.21))"
+          : "white",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",

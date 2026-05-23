@@ -112,6 +112,8 @@ export default function ServicesShowcase() {
             flexWrap: "wrap",
             mb: 12,
             color: "rgba(255,255,255,0.75)",
+            alignItems: "center",
+            justifyContent: "center",
           }}
         >
           {[

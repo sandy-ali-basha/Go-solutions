@@ -19,7 +19,6 @@ import emailIcon from "assets/images/icons/email.svg";
 import locationIcon from "assets/images/icons/location.svg";
 import instagramIcon from "assets/images/icons/socialmedia.svg";
 import messageIcon from "assets/images/icons/chat.svg";
-import AnimatedText from "../../components/common/AnimatedText";
 import AnimatedButton from "components/common/AnimatedButton";
 import TypingText from "components/common/TypingText";
 
@@ -66,7 +65,7 @@ function Footer() {
   ];
 
   return (
-    <Container sx={{backdropFilter:"blur(20px)"}}>
+    <Container sx={{backdropFilter:"blur(20px)",borderRadius:"30px"}}>
       <Box
         component="footer"
         sx={{
@@ -146,8 +145,8 @@ function Footer() {
               </Grid>
 
               {/* CONTACT INFO */}
-              <Grid item xs={12} md={5}>
-                <Grid container>
+              <Grid item xs={12} md={5} >
+                <Grid container spacing={1}>
                   {contactItems.map((item, index) => (
                     <Grid item xs={12} sm={6} key={index}>
                       <Box
@@ -162,8 +161,9 @@ function Footer() {
                           src={item.icon}
                           alt=""
                           sx={{
-                            width: 18,
-                            height: 18,
+                            width: 20,
+                            height: 20,
+                            objectFit: "contain",
                           }}
                         />
 
