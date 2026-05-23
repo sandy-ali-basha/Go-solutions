@@ -94,7 +94,7 @@ export default function Home() {
         sx={{
           position: "fixed",
           inset: 0,
-          zIndex: 1,
+          zIndex: 0,
           pointerEvents: "none",
           filter: "drop-shadow(0 18px 30px rgba(254, 87, 42, 0.3))",
         }}

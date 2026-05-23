@@ -22,9 +22,10 @@ function NavBar() {
       color="transparent"
       sx={{
         width: "100%",
-        backgroundColor: "#170707",
-        backgroundImage: "var(--brand-gradient-primary)",
+        backgroundImage:"linear-gradient(90deg, rgba(254, 88, 42, 0.70) 0%, rgba(216, 75, 36, 0.70) 18%, rgba(138, 45, 24, 0.70) 52%, rgba(23, 7, 7, 0.70) 100%)",
         boxShadow: "none",
+        backdropFilter:"blur(10px)",
+        zIndex: 10,
       }}
     >
       <Container maxWidth="xl">
