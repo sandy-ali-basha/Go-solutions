@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 import { Box, Container, Typography } from "@mui/material";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Mousewheel } from "swiper/modules";
+import { Mousewheel, Autoplay } from "swiper/modules";
 
 import "swiper/css";
 
@@ -38,7 +38,7 @@ export default function ServicesSwiperSection() {
           />
 
           <Swiper
-            modules={[Mousewheel]}
+            modules={[Mousewheel, Autoplay]}
             slidesPerView={"1"}
             breakpoints={{
               670: { slidesPerView: "1" },
@@ -47,6 +47,7 @@ export default function ServicesSwiperSection() {
             centeredSlides={true}
             spaceBetween={30}
             speed={900}
+            autoplay={{ delay: 1000, disableOnInteraction: false, pauseOnMouseEnter: true }}
             allowTouchMove={true}
             resistanceRatio={0}
             mousewheel={true}
@@ -64,7 +65,7 @@ export default function ServicesSwiperSection() {
                       color: isActive ? "#FF5A1F" : "white",
                       transform: isActive ? "scale(1.15)" : "scale(0.95)",
                       userSelect: "none",
-                      fontSize: { xs: "1rem", md: "2.5rem" },
+                      fontSize: { xs: "1.5rem", md: "2.5rem" },
                       textAlign: "center",
                     }}
                   >

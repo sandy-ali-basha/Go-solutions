@@ -118,7 +118,7 @@ export default function Services() {
   );
   const logoY = useTransform(
     scrollYProgress,
-    [0, 0.10, 0.5, 1],
+    [0, 0.1, 0.5, 1],
     ["0vh", "4vh", "10vh", "20vh"],
   );
 
@@ -179,8 +179,10 @@ export default function Services() {
           sx={{
             display: "flex",
             gap: { xs: 1, md: 2 },
-            height: { xs: 520, md: "75vh" },
+            height: { xs: 420, md: "75vh" },
             alignItems: "stretch",
+            overflowX: "scroll",
+            scrollbarColor: "transparent transparent",
           }}
         >
           {items.map((item, i) => {
@@ -227,7 +229,7 @@ export default function Services() {
                 <Box
                   sx={{
                     backdropFilter: "blur(32px)",
-                    border:"1px solid #ffffff0e",
+                    border: "1px solid #ffffff0e",
                     padding: 5,
                     height: "100%",
                     width: "clamp(280px, 35vw, 520px)",
@@ -243,11 +245,11 @@ export default function Services() {
                     sx={{
                       rotate: "90deg",
                       position: "absolute",
-                      top: "32%",
+                      top: { xs: "42%", md: "32%" },
                       left: "-23%",
                       width: "50vh",
                       wordBreak: "no-break",
-                      fontSize: { xs: "0.9rem", md: "2rem" },
+                      fontSize: { xs: "1.5rem", md: "2rem" },
                       opacity: isSelected ? 0 : 1,
                       transition: "opacity 0.25s ease",
                       float: "left",
@@ -326,7 +328,7 @@ export default function Services() {
                         variant="body1"
                         sx={{
                           fontWeight: 700,
-                          opacity: isSelected || isActive ? 1 : 0,
+                          opacity: isMobile || isSelected || isActive ? 1 : 0,
                           transition: "opacity 0.25s ease",
                         }}
                       >
@@ -347,12 +349,12 @@ export default function Services() {
               alt={`${selectedProject.title} selected project view`}
               sx={{
                 width: "100vw",
-                height: { xs: 280, md: "100vh" },
+                height: { xs: 280, md: "80vh" },
                 ml: "50%",
                 transform: "translateX(-50%)",
-                objectFit: "cover",
+                objectFit: "contain",
                 display: "block",
-                borderRadius: "40px",
+                borderRadius: { xs: "20px", md: "40px" },
                 mb: 3,
               }}
             />
@@ -381,7 +383,7 @@ export default function Services() {
                         border: isCurrent
                           ? "2px solid #FE572A"
                           : "1px solid rgba(255,255,255,0.12)",
-                        borderRadius: "40px",
+                        borderRadius: { xs: "20px", md: "40px" },
                         p: 0,
                         overflow: "hidden",
                         cursor: "pointer",
