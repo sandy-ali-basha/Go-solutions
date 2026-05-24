@@ -120,8 +120,13 @@ export default function ContactUs() {
           <Grid container spacing={8}>
             {/* LEFT */}
             <Grid item xs={12} md={7}>
-              <Typography variant="h1">
-                Lets <Box component={"img"} src={star}></Box>
+              <Typography variant="h1" sx={{ fontSize: { xs: "2.5rem" } }}>
+                Lets{" "}
+                <Box
+                  component={"img"}
+                  sx={{ width: { xs: "2rem" } }}
+                  src={star}
+                ></Box>
                 <br />
                 Get In Touch
               </Typography>
@@ -137,13 +142,23 @@ export default function ContactUs() {
                 >
                   Contact With
                 </Typography>
-                <Typography variant="h3" sx={{letterSpacing: "0.02em"}}>
-                  Go CREA<Box
+                <Typography
+                  variant="h3"
+                  sx={{ letterSpacing: "0.02em", fontSize: { xs: "2rem" } }}
+                >
+                  Go CREA
+                  <Box
                     component={"img"}
-                    sx={{ rotate: "-90deg" ,width:"2rem"}}
+                    sx={{ rotate: "-90deg", width: "2rem" }}
                     src={arrowUpRight}
                   ></Box>
-                  IVE SOLUTI<Box component={"img"} sx={{width:"2rem"}} src={star}></Box>NS
+                  IVE SOLUTI
+                  <Box
+                    component={"img"}
+                    sx={{ width: "2rem" }}
+                    src={star}
+                  ></Box>
+                  NS
                 </Typography>
                 {/* SOCIALS */}
                 <Box
@@ -345,6 +360,7 @@ export default function ContactUs() {
                   alt=""
                   style={{
                     height: "70px",
+                    width:"fit-content",
                     objectFit: "contain",
                   }}
                 />

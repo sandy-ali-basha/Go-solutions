@@ -152,7 +152,7 @@ function Slider() {
                     borderRadius: "50px",
                     overflow: "hidden",
                     width: ["80vw", "60vw"],
-                    minHeight: { xs: "70vh", md: "60vh" },
+                    minHeight: { xs: "60vh", md: "60vh" },
                     boxShadow: "0 26px 30px rgba(53, 20, 10, 0.28)",
                   }}
                 >
@@ -194,7 +194,7 @@ function Slider() {
                       boxShadow:
                         "inset 0px 4px 20px 1px #ffffff40, inset 1px 4px 4px #ffffff33",
                       backdropFilter: "blur(5px)",
-                      borderRadius: "40px",
+                      borderRadius: { xs: "30px", md: "40px" },
                       display: "flex",
                       flexDirection: "row",
                       justifyContent: "center",
