@@ -26,11 +26,7 @@ export const useNavBar = () => {
       onClick: () => navigate("/our-services"),
       label: t("Our Services"),
     },
-    {
-      id: "5",
-      onClick: () => navigate("/Help"),
-      label: t("Help"),
-    },
+
   ];
   return {
     pages,

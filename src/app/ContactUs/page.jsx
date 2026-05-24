@@ -94,10 +94,34 @@ export default function ContactUs() {
     damping: 30,
   });
 
-  const x1 = useTransform(smoothScroll, [0, 1000], [0, -200]);
-  const x2 = useTransform(smoothScroll, [0, 1000], [0, 200]);
+  const x1 = useTransform(smoothScroll, [0, 1000], [0, -260], {
+    clamp: false,
+  });
+  const x2 = useTransform(smoothScroll, [0, 1000], [-260, 0], {
+    clamp: false,
+  });
 
-  const logos = Array.from({ length: 12 });
+  const logos = Array.from({ length: 24 });
+  const movingLogoItemSx = {
+    display: "flex",
+    alignItems: "center",
+    gap: { xs: 1.25, sm: 2, md: 3 },
+    flex: "0 0 auto",
+    minWidth: "max-content",
+  };
+  const movingLogoSx = {
+    display: "block",
+    flex: "0 0 auto",
+    width: { xs: 132, sm: 158, md: 208 },
+    height: "auto",
+  };
+  const movingArrowSx = {
+    display: "block",
+    flex: "0 0 auto",
+    width: { xs: 58, sm: 78, md: 120 },
+    height: { xs: 58, sm: 78, md: 120 },
+    objectFit: "contain",
+  };
 
   return (
     <>
@@ -340,79 +364,51 @@ export default function ContactUs() {
           <motion.div
             style={{
               display: "flex",
-              gap: "40px",
+              gap: "clamp(18px, 5vw, 40px)",
               x: x1,
               marginBottom: "20px",
+              width: "max-content",
             }}
           >
             {logos.map((_, index) => (
-              <Box
-                key={index}
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 3,
-                  minWidth: "fit-content",
-                }}
-              >
-                <img
+              <Box key={index} sx={movingLogoItemSx}>
+                <Box
+                  component="img"
                   src={logo}
                   alt=""
-                  style={{
-                    height: "70px",
-                    width:"fit-content",
-                    objectFit: "contain",
-                  }}
+                  sx={movingLogoSx}
                 />
 
-                <img
+                <Box
+                  component="img"
                   src={arrowUpRight}
                   alt=""
-                  style={{
-                    width: "120px",
-                    height: "120px",
-                    objectFit: "contain",
-                  }}
+                  sx={movingArrowSx}
                 />
 
-                <img
+                <Box
+                  component="img"
                   src={arrowUpRight}
                   alt=""
-                  style={{
-                    rotate: "180deg",
-                    width: "120px",
-                    height: "120px",
-                    objectFit: "contain",
+                  sx={{
+                    ...movingArrowSx,
+                    transform: "rotate(180deg)",
                   }}
+                />
+                <Box
+                  component="img"
+                  src={arrowUpRight}
+                  alt=""
+                  sx={movingArrowSx}
                 />
 
-                <img
+                <Box
+                  component="img"
                   src={arrowUpRight}
                   alt=""
-                  style={{
-                    width: "120px",
-                    height: "120px",
-                    objectFit: "contain",
-                  }}
-                />
-
-                <img
-                  src={arrowUpRight}
-                  alt=""
-                  style={{
-                    rotate: "180deg",
-                    width: "120px",
-                    height: "120px",
-                    objectFit: "contain",
-                  }}
-                />
-                <img
-                  src={arrowUpRight}
-                  alt=""
-                  style={{
-                    width: "120px",
-                    height: "120px",
-                    objectFit: "contain",
+                  sx={{
+                    ...movingArrowSx,
+                    transform: "rotate(180deg)",
                   }}
                 />
               </Box>
@@ -423,78 +419,52 @@ export default function ContactUs() {
           <motion.div
             style={{
               display: "flex",
-              gap: "40px",
+              gap: "clamp(18px, 5vw, 40px)",
               x: x2,
               justifyContent: "flex-end",
+              width: "max-content",
             }}
           >
             {logos.map((_, index) => (
-              <Box
-                key={index}
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 3,
-                  minWidth: "fit-content",
-                }}
-              >
-                <img
+              <Box key={index} sx={movingLogoItemSx}>
+                <Box
+                  component="img"
                   src={logo}
                   alt=""
-                  style={{
-                    height: "70px",
-                    objectFit: "contain",
+                  sx={movingLogoSx}
+                />
+
+                <Box
+                  component="img"
+                  src={arrowUpRight}
+                  alt=""
+                  sx={movingArrowSx}
+                />
+
+                <Box
+                  component="img"
+                  src={arrowUpRight}
+                  alt=""
+                  sx={{
+                    ...movingArrowSx,
+                    transform: "rotate(180deg)",
                   }}
                 />
 
-                <img
+                <Box
+                  component="img"
                   src={arrowUpRight}
                   alt=""
-                  style={{
-                    width: "120px",
-                    height: "120px",
-                    objectFit: "contain",
-                  }}
+                  sx={movingArrowSx}
                 />
 
-                <img
+                <Box
+                  component="img"
                   src={arrowUpRight}
                   alt=""
-                  style={{
-                    rotate: "180deg",
-                    width: "120px",
-                    height: "120px",
-                    objectFit: "contain",
-                  }}
-                />
-
-                <img
-                  src={arrowUpRight}
-                  alt=""
-                  style={{
-                    width: "120px",
-                    height: "120px",
-                    objectFit: "contain",
-                  }}
-                />
-
-                <img
-                  src={arrowUpRight}
-                  alt=""
-                  style={{
-                    rotate: "180deg",
-                    width: "120px",
-                    height: "120px",
-                    objectFit: "contain",
-                  }}
-                />
-                <img
-                  src={arrowUpRight}
-                  alt=""
-                  style={{
-                    width: "120px",
-                    height: "120px",
-                    objectFit: "contain",
+                  sx={{
+                    ...movingArrowSx,
+                    transform: "rotate(180deg)",
                   }}
                 />
               </Box>

@@ -120,10 +120,10 @@ function Slider() {
           cardsEffect={{
             slideShadows: false,
             rotate: true,
-            perSlideRotate: 3,
+            perSlideRotate: 2,
             perSlideOffset: 6,
           }}
-          spaceBetween={24}
+          spaceBetween={20}
           slidesPerView={1}
           style={{
             paddingBottom: "40px",
@@ -200,8 +200,8 @@ function Slider() {
                       transition: "all 0.3s ease",
                       cursor: "pointer",
                       "&:hover": {
-                        borderRadius: "60px",
                         scale: 1.02,
+                      background: "rgba(156, 130, 130, 0.09)",
                       },
                     }}
                     onKeyDown={(event) => {

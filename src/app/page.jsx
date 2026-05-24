@@ -38,7 +38,7 @@ export default function Home() {
     if (isMobile) return undefined;
 
     const lenis = new Lenis({
-      duration: 1.5,
+      duration: 4,
       smoothWheel: true,
       wheelMultiplier: 0.9,
       touchMultiplier: 1.2,
