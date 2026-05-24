@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Box, Container, Typography } from "@mui/material";
+import { Box, Container, Typography, useMediaQuery } from "@mui/material";
 import { DesignServices, Map, RemoveRedEye, Start } from "@mui/icons-material";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Lenis from "lenis";
@@ -99,6 +99,7 @@ const items = [
 ];
 
 export default function Services() {
+  const isMobile = useMediaQuery("(max-width:899px)");
   const [selected, setSelected] = useState(0);
   const [mainImage, setMainImage] = useState(galleryImages[0]);
   const selectedProject = items[selected];
@@ -122,6 +123,8 @@ export default function Services() {
   );
 
   useEffect(() => {
+    if (isMobile) return undefined;
+
     const lenis = new Lenis({
       duration: 4,
       smoothWheel: true,
@@ -130,17 +133,20 @@ export default function Services() {
       infinite: false,
     });
 
+    let animationFrameId;
+
     function raf(time) {
       lenis.raf(time);
-      requestAnimationFrame(raf);
+      animationFrameId = requestAnimationFrame(raf);
     }
 
-    requestAnimationFrame(raf);
+    animationFrameId = requestAnimationFrame(raf);
 
     return () => {
+      cancelAnimationFrame(animationFrameId);
       lenis.destroy();
     };
-  }, []);
+  }, [isMobile]);
 
   return (
     <Box
@@ -153,9 +159,9 @@ export default function Services() {
       <Box
         component={motion.div}
         style={{
-          opacity: logoOpacity,
-          x: logoX,
-          y: logoY,
+          opacity: isMobile ? 0.28 : logoOpacity,
+          x: isMobile ? "0vw" : logoX,
+          y: isMobile ? "2vh" : logoY,
         }}
         sx={{
           position: "fixed",
@@ -165,7 +171,7 @@ export default function Services() {
           filter: "drop-shadow(0 18px 30px rgba(254, 88, 42, 0.36))",
         }}
       >
-        <Logo3D scrollYProgress={scrollYProgress} />
+        <Logo3D scrollYProgress={scrollYProgress} isMobile={isMobile} />
       </Box>
 
       <Container maxWidth="xl">
@@ -192,15 +198,19 @@ export default function Services() {
                 }}
                 animate={{
                   width:
-                    isActive || isSelected
+                    isMobile || isActive || isSelected
                       ? "clamp(280px, 35vw, 520px)"
                       : "clamp(66px, 7vw, 100px)",
                 }}
-                transition={{
-                  type: "spring",
-                  stiffness: 70,
-                  damping: 20,
-                }}
+                transition={
+                  isMobile
+                    ? { duration: 0 }
+                    : {
+                        type: "spring",
+                        stiffness: 70,
+                        damping: 20,
+                      }
+                }
                 style={{
                   height: "100%",
                   borderRadius: "24px",

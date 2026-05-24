@@ -27,15 +27,6 @@ function DesktopNav({ pages }) {
           </Button>
         ))}
       </Box>
-      <Button
-        sx={{
-          my: 2,
-          color: "white",
-          display: "block",
-        }}
-      >
-        <Search />
-      </Button>
     </>
   );
 }

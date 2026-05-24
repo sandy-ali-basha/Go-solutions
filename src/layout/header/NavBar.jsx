@@ -40,9 +40,7 @@ function NavBar() {
               handleDrawerToggle={handleDrawerToggle}
             />
           </Box>
-
           <DesktopNav pages={pages} />
-
         </Toolbar>
       </Container>
     </AppBar>

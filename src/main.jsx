@@ -8,6 +8,8 @@ import "./i18n";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { BrowserRouter } from "react-router-dom";
 import { SnackbarProvider } from "notistack";
+import { MotionConfig } from "framer-motion";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -18,13 +20,25 @@ const queryClient = new QueryClient({
   },
 });
 
+function MobileMotionProvider({ children }) {
+  const isMobile = useMediaQuery("(max-width:899px)");
+
+  return (
+    <MotionConfig reducedMotion={isMobile ? "always" : "never"}>
+      {children}
+    </MotionConfig>
+  );
+}
+
 ReactDOM.createRoot(document.getElementById("root")).render(
   <RTLProvider>
     <SnackbarProvider>
       <QueryClientProvider client={queryClient}>
         <BrowserRouter>
           <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
-            <App />
+            <MobileMotionProvider>
+              <App />
+            </MobileMotionProvider>
             <ReactQueryDevtools initialIsOpen={false} />
           </GoogleOAuthProvider>
         </BrowserRouter>

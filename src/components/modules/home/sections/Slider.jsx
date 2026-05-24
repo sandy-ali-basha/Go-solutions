@@ -3,11 +3,9 @@ import { ChevronLeft, ChevronRight } from "@mui/icons-material";
 import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { EffectCards, EffectFade, Navigation } from "swiper/modules";
+import { EffectCards, Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { portfolioSlides } from "../portfolioData";
-import Arrow from "assets/images/icons/arrow.svg";
-
 function Slider() {
   const navigate = useNavigate();
   const ref = useRef(null);
@@ -66,6 +64,7 @@ function Slider() {
                 backgroundColor: "rgba(140, 68, 39, 0.28)",
                 width: "7vw",
               },
+              display: { xs: "none", md: "block" },
             }}
           >
             <ChevronLeft sx={{ fontSize: { xs: 30, md: 38 } }} />
@@ -84,6 +83,7 @@ function Slider() {
             "&:hover": {
               right: "9.5vw",
             },
+            display: { xs: "none", md: "block" },
           }}
         >
           <IconButton
@@ -151,7 +151,7 @@ function Slider() {
                     position: "relative",
                     borderRadius: "50px",
                     overflow: "hidden",
-                    width: ["90vw", "60vw"],
+                    width: ["80vw", "60vw"],
                     minHeight: { xs: "70vh", md: "60vh" },
                     boxShadow: "0 26px 30px rgba(53, 20, 10, 0.28)",
                   }}
@@ -181,11 +181,11 @@ function Slider() {
 
                   <Box
                     sx={{
-                      position: "absolute",
                       boxSizing: "border-box",
+                      position: "absolute",
                       left: "3.79%",
                       right: "3.72%",
-                      top: { xs: "52%", md: "49.91%" },
+                      top: { xs: "30%", md: "49.91%" },
                       bottom: { xs: "4.8%", md: "5.69%" },
                       px: { xs: 2.5, md: 3.5 },
                       py: { xs: 2.25, md: 3 },
@@ -240,10 +240,10 @@ function Slider() {
                         {slide.description}
                       </Typography>
                     </Box>
-                    
                   </Box>
                 </Box>
               </Box>
+       
             </SwiperSlide>
           ))}
         </Swiper>

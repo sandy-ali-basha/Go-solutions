@@ -13,7 +13,7 @@ const logoMaterial = new THREE.MeshStandardMaterial({
   metalness: 0.30,
 });
 
-function Model({ scrollYProgress }) {
+function Model({ scrollYProgress, isMobile }) {
   const ref = useRef();
   const { invalidate } = useThree();
   const { scene } = useGLTF(logoModel, false, true);
@@ -31,8 +31,18 @@ function Model({ scrollYProgress }) {
     return clonedScene;
   }, [scene]);
 
-  const applyScroll = useCallback((scroll) => {
+  const applyMobilePose = useCallback(() => {
     if (!ref.current) return;
+
+    ref.current.rotation.set(0.08, -0.45, 0);
+    ref.current.position.set(0, 0.1, 0);
+    ref.current.scale.setScalar(0.76);
+
+    invalidate();
+  }, [invalidate]);
+
+  const applyScroll = useCallback((scroll) => {
+    if (!ref.current || isMobile) return;
 
     const orbit = Math.sin(scroll * Math.PI * 2.3);
 
@@ -44,30 +54,41 @@ function Model({ scrollYProgress }) {
     ref.current.scale.setScalar(0.72 + Math.sin(scroll * Math.PI) * 0.2);
 
     invalidate();
-  }, [invalidate]);
+  }, [invalidate, isMobile]);
 
   useEffect(() => {
-    applyScroll(scrollYProgress.get());
-  }, [applyScroll, scrollYProgress]);
+    if (isMobile) {
+      applyMobilePose();
+      return;
+    }
 
-  useMotionValueEvent(scrollYProgress, "change", applyScroll);
+    applyScroll(scrollYProgress.get());
+  }, [applyMobilePose, applyScroll, isMobile, scrollYProgress]);
+
+  useMotionValueEvent(scrollYProgress, "change", (latestScroll) => {
+    applyScroll(latestScroll);
+  });
 
   return <primitive ref={ref} object={orangeScene} />;
 }
 
-export default function Logo3D({ scrollYProgress }) {
+export default function Logo3D({ scrollYProgress, isMobile = false }) {
   return (
     <Canvas
       frameloop="demand"
-      dpr={[1, 1.35]}
+      dpr={isMobile ? [1, 1] : [1, 1.35]}
       camera={{ position: [0, 0, 5], fov: 45 }}
-      gl={{ alpha: true, antialias: true, powerPreference: "low-power" }}
+      gl={{
+        alpha: true,
+        antialias: !isMobile,
+        powerPreference: "low-power",
+      }}
       style={{ width: "100%", height: "100%" }}
     >
       <ambientLight intensity={1.15} />
       <directionalLight position={[2, 2, 5]} intensity={1.25} />
 
-      <Model scrollYProgress={scrollYProgress} />
+      <Model scrollYProgress={scrollYProgress} isMobile={isMobile} />
     </Canvas>
   );
 }

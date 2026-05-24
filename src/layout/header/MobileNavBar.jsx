@@ -92,7 +92,7 @@ const MobileNavBar = ({
             </ListItem>
           )}
         </List>
-
+{/* 
         <Box
           sx={{ display: { xs: "block", lg: "none" }, mt: "auto", mx: "10px" }}
         >
@@ -114,7 +114,7 @@ const MobileNavBar = ({
               </Link>
             </Button>
           )}
-        </Box>
+        </Box> */}
       </Drawer>
     </>
   );

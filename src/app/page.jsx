@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import Lenis from "lenis";
-import { Box } from "@mui/material";
+import { Box, useMediaQuery } from "@mui/material";
 import { motion, useScroll, useTransform } from "framer-motion";
 
 import Seo from "components/Seo";
@@ -16,6 +16,7 @@ import Logo3D from "components/Logo3d";
 import ContactUsSection from "components/modules/home/ContactUsSection";
 
 export default function Home() {
+  const isMobile = useMediaQuery("(max-width:899px)");
   const { scrollYProgress } = useScroll();
   const logoOpacity = useTransform(
     scrollYProgress,
@@ -34,6 +35,8 @@ export default function Home() {
   );
 
   useEffect(() => {
+    if (isMobile) return undefined;
+
     const lenis = new Lenis({
       duration: 1.5,
       smoothWheel: true,
@@ -42,17 +45,20 @@ export default function Home() {
       infinite: false,
     });
 
+    let animationFrameId;
+
     function raf(time) {
       lenis.raf(time);
-      requestAnimationFrame(raf);
+      animationFrameId = requestAnimationFrame(raf);
     }
 
-    requestAnimationFrame(raf);
+    animationFrameId = requestAnimationFrame(raf);
 
     return () => {
+      cancelAnimationFrame(animationFrameId);
       lenis.destroy();
     };
-  }, []);
+  }, [isMobile]);
 
   return (
     <Box
@@ -87,9 +93,9 @@ export default function Home() {
       <Box
         component={motion.div}
         style={{
-          opacity: logoOpacity,
-          x: logoX,
-          y: logoY,
+          opacity: isMobile ? 0.34 : logoOpacity,
+          x: isMobile ? "0vw" : logoX,
+          y: isMobile ? "2vh" : logoY,
         }}
         sx={{
           position: "fixed",
@@ -99,7 +105,7 @@ export default function Home() {
           filter: "drop-shadow(0 18px 30px rgba(254, 87, 42, 0.3))",
         }}
       >
-        <Logo3D scrollYProgress={scrollYProgress} />
+        <Logo3D scrollYProgress={scrollYProgress} isMobile={isMobile} />
       </Box>
 
       <Box sx={{ position: "relative", zIndex: 2 }}>
@@ -107,11 +113,8 @@ export default function Home() {
         <Reveal>
           <ClientsIndustriesSection />
         </Reveal>
-
         <CompanyPortfolioSection />
-
         <EventSection />
-
         <TechSolution />
         <ContactUsSection/>
       </Box>

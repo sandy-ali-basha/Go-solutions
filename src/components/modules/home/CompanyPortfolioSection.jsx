@@ -1,8 +1,8 @@
 import { Box, Divider, Typography } from "@mui/material";
 import Slider from "./sections/Slider";
-import huawei from "assets/images/icons/huawei.svg";
 import AnimatedText from "components/common/AnimatedText";
 import TypingText from "components/common/TypingText";
+import huawei from "assets/images/icons/huawei.svg";
 
 function CompanyPortfolioSection() {
   return (
@@ -17,7 +17,6 @@ function CompanyPortfolioSection() {
         secondText={"mpany Portfolio"}
       ></AnimatedText>
       <Slider />
-
       <Box
         sx={{
           width: ["90vw", "70vw"],
@@ -56,8 +55,8 @@ function CompanyPortfolioSection() {
             </Box>{" "}
             <TypingText
               text="We turn ideas into unforgettable experiences. As a full-service
-            event management company, we specialize in crafting seamless,
-            innovative, and impactful events tailored to your vision."
+                      event management company, we specialize in crafting seamless,
+                      innovative, and impactful events tailored to your vision."
             ></TypingText>
           </Typography>
 

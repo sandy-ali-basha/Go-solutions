@@ -39,12 +39,15 @@ export default function ServicesSwiperSection() {
 
           <Swiper
             modules={[Mousewheel]}
-            slidesPerView={3}
+            slidesPerView={"1"}
+            breakpoints={{
+              670: { slidesPerView: "1" },
+              900: { slidesPerView: "3" },
+            }}
             centeredSlides={true}
             spaceBetween={30}
             speed={900}
             allowTouchMove={true}
-            
             resistanceRatio={0}
             mousewheel={true}
             style={{ width: "100%" }}
@@ -61,6 +64,8 @@ export default function ServicesSwiperSection() {
                       color: isActive ? "#FF5A1F" : "white",
                       transform: isActive ? "scale(1.15)" : "scale(0.95)",
                       userSelect: "none",
+                      fontSize: { xs: "1rem", md: "2.5rem" },
+                      textAlign: "center",
                     }}
                   >
                     {item}

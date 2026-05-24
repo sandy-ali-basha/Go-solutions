@@ -35,17 +35,12 @@ function AnimatedText({ firstText, secondText }) {
     damping: 18,
   });
   return (
-    <MotionBox
-      ref={ref}
-      sx={{
-        mb: 2,
-      }}
-    >
+    <MotionBox ref={ref} sx={{ mb: 2 }}>
       <Typography
         variant="h1"
         sx={{
           textAlign: "center",
-          fontSize: { xs: "2.5rem", md: "6rem" },
+          fontSize: { xs: "2rem", md: "6rem" },
           lineHeight: 1,
           fontWeight: 600,
           color: "white",
@@ -55,8 +50,8 @@ function AnimatedText({ firstText, secondText }) {
           justifyContent: "center",
           flexWrap: "wrap",
           overflow: "clip",
+          wordBreak: "no-break",
         }}
-   
       >
         {/* FIRST TEXT */}
         <motion.span
@@ -71,8 +66,7 @@ function AnimatedText({ firstText, secondText }) {
         </motion.span>
 
         {/* STAR */}
-
-        <motion.div
+        <motion.Box
           initial="rest"
           whileHover="hover"
           onMouseMove={(e) => {
@@ -173,10 +167,12 @@ function AnimatedText({ firstText, secondText }) {
               rotate: starRotate,
             }}
           />
-        </motion.div>
+        </motion.Box>
 
         {/* SECOND TEXT */}
-
+        <Box sx={{ xs: "block", sm: "none" }}>
+          <br />
+        </Box>
         <motion.span
           style={{
             display: "inline-block",
