@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, useMediaQuery } from "@mui/material";
 import {
   motion,
   useMotionValue,
@@ -8,11 +8,12 @@ import {
 } from "framer-motion";
 import { useRef, useState } from "react";
 import oStar from "assets/images/icons/oStar.svg";
-import CursorFollower from "./CursorFollower";
 
 const MotionBox = motion(Box);
 
 function AnimatedText({ firstText, secondText }) {
+  const isMobile = useMediaQuery("(max-width:899px)");
+
   const ref = useRef(null);
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
@@ -86,8 +87,8 @@ function AnimatedText({ firstText, secondText }) {
             scale: 1.3,
             x: springX,
             y: springY,
-            width: "clamp(70px, 10vw, 110px)",
-            height: "clamp(70px, 10vw, 110px)",
+            width:  "clamp(30px, 7vw, 110px)",
+            height: "clamp(30px, 7vw, 110px)",
             position: "relative",
             display: "flex",
             alignItems: "center",
@@ -117,6 +118,8 @@ function AnimatedText({ firstText, secondText }) {
               position: "absolute",
               inset: 0,
               mixBlendMode: "revert",
+              width:"55%",
+              height: "55%",
             }}
           >
             <motion.div
@@ -159,7 +162,7 @@ function AnimatedText({ firstText, secondText }) {
             src={oStar}
             alt="star"
             style={{
-              width: "55%",
+              width:"55%",
               height: "55%",
               objectFit: "contain",
               position: "relative",

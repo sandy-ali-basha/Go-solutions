@@ -146,10 +146,10 @@ function Slider() {
                   role="button"
                   tabIndex={0}
                   sx={{
-                    border: "1px solid rgba(254, 87, 42, 0.95)",
+                    border: "1px solid rgba(254, 88, 42, 0.45)",
                     mx: "auto",
                     position: "relative",
-                    borderRadius: "50px",
+                    borderRadius: ["45px","50px"],
                     overflow: "hidden",
                     width: ["80vw", "60vw"],
                     minHeight: { xs: "60vh", md: "60vh" },
@@ -183,10 +183,9 @@ function Slider() {
                     sx={{
                       boxSizing: "border-box",
                       position: "absolute",
-                      left: "3.79%",
-                      right: "3.72%",
-                      top: { xs: "30%", md: "49.91%" },
-                      bottom: { xs: "4.8%", md: "5.69%" },
+                      height:"auto",
+                      bottom: 0,
+                      margin:"10px",
                       px: { xs: 2.5, md: 3.5 },
                       py: { xs: 2.25, md: 3 },
                       background: "rgba(39, 25, 25, 0.09)",
@@ -194,24 +193,24 @@ function Slider() {
                       boxShadow:
                         "inset 0px 4px 20px 1px #ffffff40, inset 1px 4px 4px #ffffff33",
                       backdropFilter: "blur(5px)",
-                      borderRadius: { xs: "30px", md: "40px" },
+                      borderRadius: { xs: "35px", md: "40px" },
                       display: "flex",
                       flexDirection: "row",
                       justifyContent: "center",
                       transition: "all 0.3s ease",
                       cursor: "pointer",
                       "&:hover": {
-                        borderRadius: "10px",
+                        borderRadius: "60px",
                         scale: 1.02,
                       },
                     }}
                     onKeyDown={(event) => {
                       if (event.key === "Enter" || event.key === " ") {
                         event.preventDefault();
-                        navigate(`/project/${slide.id}`);
+                        navigate(`/projects`);
                       }
                     }}
-                    onClick={() => navigate(`/project/${slide.id}`)}
+                    onClick={() => navigate(`/projects`)}
                   >
                     <Box>
                       <Typography

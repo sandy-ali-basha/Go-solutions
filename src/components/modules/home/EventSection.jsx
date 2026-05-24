@@ -29,8 +29,8 @@ const cards = [
 const MotionCard = motion(Card);
 
 function EventCard({ card, index, scrollYProgress }) {
-  const y = useTransform(scrollYProgress, [0.25, 1], [70 + index * 12, 0]);
-  const opacity = useTransform(scrollYProgress, [0.25, 0.85], [0, 1]);
+  const y = useTransform(scrollYProgress, [0.25, 1], [60 + index * 12, 0]);
+  const opacity = useTransform(scrollYProgress, [0, 0.5], [0, 1]);
 
   return (
     <MotionCard
@@ -146,7 +146,7 @@ export default function EventSection() {
                 color: "white",
                 fontWeight: 300,
                 border: "1px solid white",
-                width: ["60vw", "30vw"],
+                width: ["90vw", "30vw"],
               }}
             >
               Download Company TECH Profile pdf <ExpandMore />
@@ -159,7 +159,7 @@ export default function EventSection() {
                 color: "white",
                 fontWeight: 300,
                 border: "1px solid white",
-                width: ["60vw", "30vw"],
+                width: ["90vw", "30vw"],
               }}
             >
               Download Company Profile pdf <ExpandMore />

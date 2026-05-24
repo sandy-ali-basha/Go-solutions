@@ -16,7 +16,9 @@ function CompanyPortfolioSection() {
         firstText={"C"}
         secondText={"mpany Portfolio"}
       ></AnimatedText>
+      {/* slider */}
       <Slider />
+      
       <Box
         sx={{
           width: ["90vw", "70vw"],
@@ -64,7 +66,7 @@ function CompanyPortfolioSection() {
             sx={{
               mt: 3,
               display: "flex",
-              flexDirection: { xs: "column", sm: "row" },
+              flexDirection:"row",
               alignItems: { xs: "flex-start", sm: "center" },
               gap: 3,
             }}

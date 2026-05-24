@@ -116,7 +116,7 @@ export default function Home() {
         <CompanyPortfolioSection />
         <EventSection />
         <TechSolution />
-        <ContactUsSection/>
+        <ContactUsSection />
       </Box>
     </Box>
   );
