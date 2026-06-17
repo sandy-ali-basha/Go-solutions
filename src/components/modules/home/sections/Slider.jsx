@@ -40,11 +40,7 @@ function Slider() {
             top: "50%",
             transform: "translateY(-50%)",
             transition: "all 0.2s ease",
-
             zIndex: 5,
-            "&:hover": {
-              left: "9vw",
-            },
           }}
         >
           <IconButton
@@ -52,22 +48,14 @@ function Slider() {
             style={{ scale: navScale }}
             sx={{
               color: "white",
-              width: "4vw",
-              height: "50vh",
-              borderRadius: "40px",
-              border: "2px solid rgba(254, 87, 42, 0.95)",
-              backdropFilter: "blur(8px)",
-              backgroundColor: "rgba(185, 185, 185, 0.11)",
-              transition: "all 0.2s ease",
-              boxShadow: "0 10px 26px rgba(72, 24, 10, 0.11)",
-              "&:hover": {
-                backgroundColor: "rgba(140, 68, 39, 0.28)",
-                width: "7vw",
-              },
+              width:  "5vw",
+              height: "8vw",
+              borderRadius: "50px",
               display: { xs: "none", md: "block" },
+            transition: "all 0.2s ease",
             }}
           >
-            <ChevronLeft sx={{ fontSize: { xs: 30, md: 38 } }} />
+            <ChevronLeft sx={{ fontSize: { xs: 40, md: 38 } }} />
           </IconButton>
         </Box>
 
@@ -80,9 +68,7 @@ function Slider() {
             transform: "translateY(-50%)",
             zIndex: 5,
             transition: "all 0.2s ease",
-            "&:hover": {
-              right: "9.5vw",
-            },
+           
             display: { xs: "none", md: "block" },
           }}
         >
@@ -91,18 +77,18 @@ function Slider() {
             style={{ scale: navScale }}
             sx={{
               color: "white",
-              width: "4vw",
-              height: "50vh",
+              width: "5vw",
+              height: "8vw",
               borderRadius: "40px",
-              border: "2px solid rgba(254, 87, 42, 0.95)",
-              backdropFilter: "blur(8px)",
-              backgroundColor: "rgba(185, 185, 185, 0.11)",
-              transition: "all 0.2s ease",
-              boxShadow: "0 10px 26px rgba(72, 24, 10, 0.11)",
-              "&:hover": {
-                backgroundColor: "rgba(140, 68, 39, 0.28)",
-                width: "7vw",
-              },
+              // border: "2px solid rgba(254, 87, 42, 0.95)",
+              // backdropFilter: "blur(8px)",
+              // backgroundColor: "rgba(185, 185, 185, 0.11)",
+              // transition: "all 0.2s ease",
+              // boxShadow: "0 10px 26px rgba(72, 24, 10, 0.11)",
+              // "&:hover": {
+              //   backgroundColor: "rgba(140, 68, 39, 0.28)",
+              //   width: "7vw",
+              // },
             }}
           >
             <ChevronRight sx={{ fontSize: { xs: 30, md: 38 } }} />

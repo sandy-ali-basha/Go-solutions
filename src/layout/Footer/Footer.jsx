@@ -18,7 +18,6 @@ import phoneIcon from "assets/images/icons/phone.svg";
 import emailIcon from "assets/images/icons/email.svg";
 import locationIcon from "assets/images/icons/location.svg";
 import instagramIcon from "assets/images/icons/socialmedia.svg";
-import messageIcon from "assets/images/icons/chat.svg";
 import AnimatedButton from "components/common/AnimatedButton";
 import TypingText from "components/common/TypingText";
 
@@ -65,7 +64,7 @@ function Footer() {
   ];
 
   return (
-    <Container sx={{backdropFilter:"blur(20px)",borderRadius:"30px"}}>
+    <Container sx={{backdropFilter:"blur(25px)",borderRadius:"30px"}}>
       <Box
         component="footer"
         sx={{
@@ -75,19 +74,7 @@ function Footer() {
           pb: 4,
         }}
       >
-        {/* FLOATING MESSAGE ICON */}
-        <Box
-          component="img"
-          src={messageIcon}
-          alt="message"
-          sx={{
-            position: "absolute",
-            right: { xs: 20, md: 60 },
-            top: "45%",
-            width: { xs: 45, md: 60 },
-          }}
-        />
-
+      
         <Container maxWidth="xl">
           {/* BOTTOM SECTION */}
           <Box
@@ -152,7 +139,7 @@ function Footer() {
                       <Box
                         sx={{
                           display: "flex",
-                          alignItems: "center",
+                          alignItems: "flex-start",
                           gap: 1,
                         }}
                       >

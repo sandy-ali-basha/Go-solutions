@@ -63,9 +63,14 @@ export default function StatsSection() {
       }}
     >
       <Container maxWidth="lg">
-        <Grid container spacing={6} justifyContent="space-between">
+        <Grid
+          container
+          spacing={0}
+          justifyContent="center"
+          alignItems={"center"}
+        >
           {stats.map((item, index) => (
-            <Grid item xs={12} md={4} key={index}>
+            <Grid item xs={12} md={4} key={index} >
               <Box
                 sx={{
                   display: "flex",
@@ -76,93 +81,101 @@ export default function StatsSection() {
               >
                 <Box
                   sx={{
-                    display: "flex",
-                    alignItems: "flex-end",
-                    marginInlineStart: "5rem",
-                    gap: 1,
+                    width: "fit-content",
+                    mx: "auto",
                   }}
                 >
-                  <Typography
+                  <Box
                     sx={{
-                      fontSize: { xs: "42px", md: "58px" },
-                      fontWeight: 600,
-                      lineHeight: 1,
-                      color: item.highlight ? "#ff5a2c" : "#fff",
-                      position: "relative",
-                      width: "fit-content",
+                      display: "flex",
+                      alignItems: "center",
+                      marginInlineStart: "5rem",
+                      gap: 1,
+                      width: "100%",
                     }}
                   >
-                    <CountUpNumber value={item.right} />
-                    <Box
-                      variant="span"
+                    <Typography
                       sx={{
-                        position: "absolute",
-                        top: "-0.5rem",
-                        marginLeft: "2px",
-                        fontSize: "2.3rem",
-                        left: "100%",
+                        fontSize: { xs: "42px", md: "58px" },
+                        fontWeight: 600,
+                        lineHeight: 1,
+                        color: item.highlight ? "#ff5a2c" : "#fff",
+                        position: "relative",
+                        width: "fit-content",
                       }}
                     >
-                      +
-                    </Box>
-                  </Typography>
-                  <Typography
-                    sx={{
-                      fontSize: "15px",
-                      color: "#fff",
-                      mt: 1,
-                      fontWeight: 300,
-                      letterSpacing: "-0.08em",
-                    }}
-                  >
-                    {item.subtitle}
-                  </Typography>
-                </Box>
-
-                <Box
-                  sx={{
-                    display: "flex",
-                    alignItems: "flex-end",
-                    marginTop: "-2rem",
-                    gap: 1,
-                  }}
-                >
-                  <Typography
-                    sx={{
-                      fontSize: { xs: "42px", md: "58px" },
-                      fontWeight: 600,
-                      lineHeight: 1,
-                      color: "#fff",
-                      position: "relative",
-                      width: "fit-content",
-                    }}
-                  >
-                    <CountUpNumber value={item.left} />
-                    <Box
-                      variant="span"
+                      <CountUpNumber value={item.right} />
+                      <Box
+                        variant="span"
+                        sx={{
+                          position: "absolute",
+                          top: "-0.5rem",
+                          marginLeft: "2px",
+                          fontSize: "2.3rem",
+                          left: "100%",
+                        }}
+                      >
+                        +
+                      </Box>
+                    </Typography>
+                    <Typography
                       sx={{
-                        position: "absolute",
-                        top: "-0.5rem",
-                        marginLeft: "2px",
-                        fontSize: "2.3rem",
-                        left: "100%",
+                        fontSize: "15px",
+                        color: "#fff",
+                        mt: 1,
+                        fontWeight: 300,
+                        letterSpacing: "-0.08em",
                       }}
                     >
-                      +
-                    </Box>
-                  </Typography>
+                      {item.subtitle}
+                    </Typography>
+                  </Box>
 
-                  <Typography
+                  <Box
                     sx={{
-                      fontSize: "15px",
-                      color: "#fff",
-                      mt: 0.5,
-                      fontWeight: 300,
-                      letterSpacing: "-0.08em",
+                      display: "flex",
+                      alignItems: "flex-end",
+                      marginTop: "-2rem",
+                      gap: 1,
                     }}
                   >
-                    {item.title}
-                  </Typography>
+                    <Typography
+                      sx={{
+                        fontSize: { xs: "42px", md: "58px" },
+                        fontWeight: 600,
+                        lineHeight: 1,
+                        color: "#fff",
+                        position: "relative",
+                        width: "fit-content",
+                      }}
+                    >
+                      <CountUpNumber value={item.left} />
+                      <Box
+                        variant="span"
+                        sx={{
+                          position: "absolute",
+                          top: "-0.5rem",
+                          marginLeft: "2px",
+                          fontSize: "2.3rem",
+                          left: "100%",
+                        }}
+                      >
+                        +
+                      </Box>
+                    </Typography>
+
+                    <Typography
+                      sx={{
+                        fontSize: "15px",
+                        color: "#fff",
+                        mt: 0.5,
+                        fontWeight: 300,
+                        letterSpacing: "-0.08em",
+                      }}
+                    >
+                      {item.title}
+                    </Typography>
+                  </Box>
                 </Box>
               </Box>
             </Grid>

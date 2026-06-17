@@ -18,10 +18,10 @@ function CompanyPortfolioSection() {
       ></AnimatedText>
       {/* slider */}
       <Slider />
-      
+
       <Box
         sx={{
-          width: ["90vw", "70vw"],
+          width: ["75vw", "60vw"],
           mx: "auto",
           display: "grid",
           gridTemplateColumns: { xs: "1fr", md: "220px 1fr" },
@@ -48,7 +48,7 @@ function CompanyPortfolioSection() {
             sx={{
               fontSize: { xs: "1rem", md: "1.08rem" },
               lineHeight: 1.6,
-              color: "rgba(255,255,255,0.94)",
+              color: "hsla(0, 0%, 100%, 0.94)",
               maxWidth: 760,
             }}
           >
@@ -56,6 +56,7 @@ function CompanyPortfolioSection() {
               "At Go Event Management,
             </Box>{" "}
             <TypingText
+              sx={{ width: "100%" }}
               text="We turn ideas into unforgettable experiences. As a full-service
                       event management company, we specialize in crafting seamless,
                       innovative, and impactful events tailored to your vision."
@@ -66,7 +67,7 @@ function CompanyPortfolioSection() {
             sx={{
               mt: 3,
               display: "flex",
-              flexDirection:"row",
+              flexDirection: "row",
               alignItems: { xs: "flex-start", sm: "center" },
               gap: 3,
             }}

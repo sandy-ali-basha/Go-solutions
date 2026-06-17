@@ -62,7 +62,7 @@ export default function ServicesSwiperSection() {
                       textAlign: "center",
                       transition: "all 0.4s ease",
                       opacity: isActive ? 1 : 0.5,
-                      color: isActive ? "#FF5A1F" : "white",
+                      color: "#FF5A1F" ,
                       transform: isActive ? "scale(1.15)" : "scale(0.95)",
                       userSelect: "none",
                       fontSize: { xs: "1.5rem", md: "2.5rem" },

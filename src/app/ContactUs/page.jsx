@@ -1,14 +1,14 @@
 import {
   Box,
-  Button,
+  Checkbox,
   Container,
   Grid,
   InputBase,
   Link,
+  Slider,
   Typography,
 } from "@mui/material";
-import React, { useEffect } from "react";
-import { useTranslation } from "react-i18next";
+import React, { useEffect, useState } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useMutation } from "react-query";
 import { useForm } from "react-hook-form";
@@ -17,6 +17,7 @@ import * as yup from "yup";
 import ButtonLoader from "components/customs/ButtonLoader";
 import Swal from "sweetalert2";
 import {
+  KeyboardArrowDown,
   Email,
   Facebook,
   Instagram,
@@ -25,17 +26,24 @@ import {
 } from "@mui/icons-material";
 import { useContactUs } from "hooks/contactUs/useContactUs";
 import Seo from "components/Seo";
-import { motion, useScroll, useSpring, useTransform } from "framer-motion";
+import {  useScroll, useSpring, useTransform } from "framer-motion";
 
 import arrowUpRight from "assets/images/icons/gradientArrow.svg";
-import logo from "assets/images/Logo.svg";
 import star from "assets/images/icons/oStar.svg";
 
+const clientTypes = [
+  "End Client",
+  "Agency",
+  "Event Company",
+  "Fabricator",
+  "A/V Company",
+  "Other",
+];
 const inputStyles = {
   border: "1px solid #D9D9D9",
   borderRadius: "12px",
   px: 2,
-  py: 1,
+  py: 1.5,
   transition: "all 0.3s",
   color: "#fff",
   "&:hover": {
@@ -45,19 +53,33 @@ const inputStyles = {
   },
 };
 export default function ContactUs() {
+  const [budget, setBudget] = useState(275);
+  const [countryCode, setCountryCode] = useState("+966");
+
   let schema = yup.object().shape({
     first_name: yup.string().trim().required(),
     email: yup.string().trim().email().required(),
+    phone: yup.string().trim().required(),
+    company_name: yup.string().trim(),
+    client_type: yup.string().trim().required(),
+    terms: yup.boolean().oneOf([true], "Agreement is required"),
     message: yup.string().trim().required(),
   });
 
-  const formOptions = { resolver: yupResolver(schema) };
+  const formOptions = {
+    resolver: yupResolver(schema),
+    defaultValues: {
+      client_type: "Agency",
+      terms: false,
+    },
+  };
 
-  const { register, handleSubmit, formState } = useForm(formOptions);
+  const { register, handleSubmit, formState, watch } = useForm(formOptions);
 
   const { errors } = formState;
+  const selectedClientType = watch("client_type", "Agency");
 
-  const { mutate } = useMutation((data) => createPost(data));
+  const { mutate, isLoading } = useMutation((data) => createPost(data));
 
   const { data: contactData } = useContactUs();
 
@@ -83,7 +105,11 @@ export default function ContactUs() {
   }
 
   const hanldeCreate = (input) => {
-    mutate(input);
+    mutate({
+      ...input,
+      country_code: countryCode,
+      budget_range: `AED ${budget}K`,
+    });
   };
 
   // scroll speed effect
@@ -143,7 +169,7 @@ export default function ContactUs() {
         <Container maxWidth="lg">
           <Grid container spacing={8}>
             {/* LEFT */}
-            <Grid item xs={12} md={7}>
+            <Grid item xs={12} md={4}>
               <Typography variant="h1" sx={{ fontSize: { xs: "2.5rem" } }}>
                 Lets{" "}
                 <Box
@@ -227,114 +253,292 @@ export default function ContactUs() {
             </Grid>
 
             {/* RIGHT */}
-            <Grid item xs={12} md={5}>
-              <Box component="form" onSubmit={handleSubmit(hanldeCreate)}>
-                <Typography
+            <Grid item xs={12} md={8}>
+              <Box
+                component="form"
+                onSubmit={handleSubmit(hanldeCreate)}
+                sx={{
+                  background:"#00000015",
+                  // border: "1px solid rgba(255, 91, 46, 0.18)",
+                  backdropFilter: "blur(25px)",
+                  px: { xs: 2, sm: 3, md: 4 },
+                  py: { xs: 3, md: 4 },
+                  color: "#fff",
+                  fontFamily: "gilroy, sans-serif",
+                  boxShadow: "0 24px 60px rgba(0, 0, 0, 0.24)",
+                  borderRadius: "15px",
+                }}
+              >
+                <Box
                   sx={{
-                    color: "#fff",
-                    mb: 1,
-                    fontSize: "14px",
-                    fontWeight: 600,
+                    display: "grid",
+                    gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr" },
+                    gap: { xs: 2, md: 2.2 },
                   }}
                 >
-                  NAME
-                </Typography>
-
-                <InputBase
-                  placeholder="Your name"
-                  fullWidth
-                  {...register("first_name")}
-                  sx={inputStyles}
-                />
-                {errors?.first_name && (
-                  <Typography
+                  <Box>
+                    <InputBase
+                      placeholder="Full Name*"
+                      fullWidth
+                      {...register("first_name")}
+                      sx={inputStyles}
+                    />
+                    {errors?.first_name && (
+                      <Typography sx={{ color: "text.primary", fontSize: "13px", mt: 0.75 }}>
+                        {errors?.first_name?.message}
+                      </Typography>
+                    )}
+                  </Box>
+                  <Box>
+                    <InputBase
+                      placeholder="Email*"
+                      fullWidth
+                      {...register("email")}
+                      sx={inputStyles}
+                    />
+                    {errors?.email && (
+                      <Typography sx={{ color: "text.primary", fontSize: "13px", mt: 0.75 }}>
+                        {errors?.email?.message}
+                      </Typography>
+                    )}
+                  </Box>
+                  <Box
                     sx={{
-                      color: "#ff6b6b",
-                      fontSize: "13px",
-                      mt: 1,
+                      display: "grid",
+                      gridTemplateColumns: { xs: "112px 1fr", md: "140px 1fr" },
+                      gap: { xs: 1.25, md: 1.6 },
                     }}
                   >
-                    {errors?.first_name?.message}
+                    <Box
+                      component="button"
+                      type="button"
+                      onClick={() => setCountryCode((value) => (value === "+966" ? "+971" : "+966"))}
+                      sx={{
+                        ...inputStyles,
+                        width: "100%",
+                        border: 0,
+                        cursor: "pointer",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        fontWeight: 700,
+                      }}
+                    >
+                      <Box component="span">{countryCode}</Box>
+                      <Box
+                        component="span"
+                        sx={{
+                          width: 27,
+                          height: 18,
+                          borderRadius: "2px",
+                          display: "inline-flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          background: countryCode === "+966" ? "#006c35" : "#00732f",
+                          fontSize: 10,
+                          lineHeight: 1,
+                        }}
+                      >
+                        {countryCode === "+966" ? "SA" : "AE"}
+                      </Box>
+                      <KeyboardArrowDown sx={{ fontSize: 20, color: "rgba(255,255,255,0.72)" }} />
+                    </Box>
+                    <InputBase
+                      placeholder="Phone*"
+                      fullWidth
+                      {...register("phone")}
+                      sx={inputStyles}
+                    />
+                  </Box>
+                  <InputBase
+                    placeholder="Company Name"
+                    fullWidth
+                    {...register("company_name")}
+                    sx={inputStyles}
+                  />
+                </Box>
+
+                {errors?.phone && (
+                  <Typography sx={{ color: "text.primary", fontSize: "13px", mt: 0.75 }}>
+                    {errors?.phone?.message}
                   </Typography>
                 )}
-                <Typography
+
+                <Box
                   sx={{
-                    color: "#fff",
-                    mb: 1,
-                    mt: 4,
-                    fontSize: "14px",
-                    fontWeight: 600,
+                    mt: { xs: 2.5, md: 2.2 },
+                    display: "flex",
+                    alignItems: "center",
+                    flexWrap: "wrap",
+                    gap: { xs: 1.4, md: 2 },
                   }}
                 >
-                  EMAIL
-                </Typography>
-                <InputBase
-                  placeholder="Email@website.com"
-                  fullWidth
-                  {...register("email")}
-                  sx={inputStyles}
-                />
+                  {clientTypes.map((type) => (
+                    <Box
+                      component="label"
+                      key={type}
+                      sx={{
+                        display: "inline-flex",
+                        alignItems: "center",
+                        gap: 1,
+                        color: "#fff",
+                        fontSize: { xs: "0.93rem", md: "1rem" },
+                        fontWeight: 700,
+                        cursor: "pointer",
+                        whiteSpace: "nowrap",
+                      }}
+                    >
+                      <Box
+                        component="input"
+                        type="radio"
+                        value={type}
+                        {...register("client_type")}
+                        sx={{ display: "none" }}
+                      />
+                      <Box
+                        component="span"
+                        sx={{
+                          width: 18,
+                          height: 18,
+                          borderRadius: "50%",
+                          background: "rgba(255, 91, 46, 0.22)",
+                          boxShadow:
+                            selectedClientType === type
+                              ? "inset 0 0 0 4px rgba(65, 25, 14, 0.95), inset 0 0 0 7px #FE572A, 0 0 0 2px rgba(254, 87, 42, 0.26)"
+                              : "none",
+                        }}
+                      />
+                      {type}
+                    </Box>
+                  ))}
+                </Box>
 
-                {errors?.email && (
-                  <Typography
+                <Box sx={{ mt: { xs: 2.75, md: 2.5 } }}>
+                  <Box
                     sx={{
-                      color: "#ff6b6b",
-                      fontSize: "13px",
-                      mt: 1,
+                      display: "grid",
+                      gridTemplateColumns: "1fr auto 1fr",
+                      alignItems: "center",
+                      color: "#fff",
+                      fontWeight: 700,
+                      fontSize: { xs: "0.9rem", md: "1rem" },
                     }}
                   >
-                    {errors?.email?.message}
-                  </Typography>
-                )}
-
-                <Typography
-                  sx={{
-                    color: "#fff",
-                    mb: 1,
-                    mt: 4,
-                    fontSize: "14px",
-                    fontWeight: 600,
-                  }}
-                >
-                  MESSAGE
-                </Typography>
+                    <Typography sx={{ fontWeight: 700 }}>AED 50K</Typography>
+                    <Typography sx={{ fontWeight: 700 }}>Budget Range</Typography>
+                    <Typography sx={{ fontWeight: 700, textAlign: "right" }}>
+                      AED 500K
+                    </Typography>
+                  </Box>
+                  <Slider
+                    value={budget}
+                    min={50}
+                    max={500}
+                    step={5}
+                    onChange={(_, value) => setBudget(value)}
+                    aria-label="Budget Range"
+                    sx={{
+                      mt: 1.1,
+                      height: 9,
+                      color: "#FE572A",
+                      "& .MuiSlider-rail": {
+                        opacity: 0.5,
+                        backgroundColor: "rgba(255, 255, 255, 0.18)",
+                      },
+                      "& .MuiSlider-track": {
+                        border: 0,
+                      },
+                      "& .MuiSlider-thumb": {
+                        width: 26,
+                        height: 26,
+                        backgroundColor: "#FE572A",
+                        boxShadow: "0 4px 18px rgba(254, 87, 42, 0.34)",
+                        "&:before": {
+                          boxShadow: "none",
+                        },
+                      },
+                    }}
+                  />
+                </Box>
 
                 <InputBase
-                  placeholder="Type your message..."
+                  placeholder="Please Enter your project details"
                   fullWidth
                   multiline
-                  minRows={6}
+                  minRows={5}
                   {...register("message")}
                   sx={{
                     ...inputStyles,
+                    mt: { xs: 2.25, md: 2.5 },
                     alignItems: "flex-start",
                   }}
                 />
-
                 {errors?.message && (
-                  <Typography
-                    sx={{
-                      color: "#ff6b6b",
-                      fontSize: "13px",
-                      mt: 1,
-                    }}
-                  >
+                  <Typography sx={{ color: "text.primary", fontSize: "13px", mt: 0.75 }}>
                     {errors?.message?.message}
                   </Typography>
                 )}
 
-                <Box sx={{ mt: 4 }}>
+                <Box
+                  component="label"
+                  sx={{
+                    mt: 1.5,
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 1,
+                    color: "#fff",
+                    fontSize: { xs: "0.9rem", md: "1rem" },
+                    fontWeight: 700,
+                    cursor: "pointer",
+                  }}
+                >
+                  <Checkbox
+                    {...register("terms")}
+                    sx={{
+                      width: 20,
+                      height: 20,
+                      p: 0,
+                      color: "#fff",
+                      "&.Mui-checked": {
+                        color: "#FE572A",
+                      },
+                      "& .MuiSvgIcon-root": {
+                        fontSize: 23,
+                        borderRadius: "4px",
+                      },
+                    }}
+                  />
+                  <Box component="span">
+                    I have read the{" "}
+                    <Box component="span" sx={{ color: "#FE572A" }}>
+                      Terms and Condition
+                    </Box>{" "}
+                    &{" "}
+                    <Box component="span" sx={{ color: "#FE572A" }}>
+                      Privacy Notice
+                    </Box>{" "}
+                    agreement
+                  </Box>
+                </Box>
+                {errors?.terms && (
+                  <Typography sx={{ color: "text.primary", fontSize: "13px", mt: 0.75 }}>
+                    {errors?.terms?.message}
+                  </Typography>
+                )}
+
+                <Box sx={{ mt: 3.5 }}>
                   <ButtonLoader
-                    loading={false}
-                    disabled={false}
+                    loading={isLoading}
+                    disabled={isLoading}
                     variant="contained"
                     type="submit"
                     sx={{
                       background: "#FF5B2E",
-                      borderRadius: "999px",
-                      px: 5,
-                      py: 1.3,
+                      borderRadius: "7px",
+                      px: 2.4,
+                      py: 1.1,
                       fontWeight: 700,
+                      textTransform: "none",
                       boxShadow: "none",
 
                       "&:hover": {
@@ -350,127 +554,6 @@ export default function ContactUs() {
             </Grid>
           </Grid>
         </Container>
-
-        {/* BOTTOM MOVING LOGOS */}
-        <Box
-          sx={{
-            mt: 20,
-            width: "100%",
-            overflow: "hidden",
-            py: 2,
-          }}
-        >
-          {/* ROW 1 */}
-          <motion.div
-            style={{
-              display: "flex",
-              gap: "clamp(18px, 5vw, 40px)",
-              x: x1,
-              marginBottom: "20px",
-              width: "max-content",
-            }}
-          >
-            {logos.map((_, index) => (
-              <Box key={index} sx={movingLogoItemSx}>
-                <Box
-                  component="img"
-                  src={logo}
-                  alt=""
-                  sx={movingLogoSx}
-                />
-
-                <Box
-                  component="img"
-                  src={arrowUpRight}
-                  alt=""
-                  sx={movingArrowSx}
-                />
-
-                <Box
-                  component="img"
-                  src={arrowUpRight}
-                  alt=""
-                  sx={{
-                    ...movingArrowSx,
-                    transform: "rotate(180deg)",
-                  }}
-                />
-                <Box
-                  component="img"
-                  src={arrowUpRight}
-                  alt=""
-                  sx={movingArrowSx}
-                />
-
-                <Box
-                  component="img"
-                  src={arrowUpRight}
-                  alt=""
-                  sx={{
-                    ...movingArrowSx,
-                    transform: "rotate(180deg)",
-                  }}
-                />
-              </Box>
-            ))}
-          </motion.div>
-
-          {/* ROW 2 */}
-          <motion.div
-            style={{
-              display: "flex",
-              gap: "clamp(18px, 5vw, 40px)",
-              x: x2,
-              justifyContent: "flex-end",
-              width: "max-content",
-            }}
-          >
-            {logos.map((_, index) => (
-              <Box key={index} sx={movingLogoItemSx}>
-                <Box
-                  component="img"
-                  src={logo}
-                  alt=""
-                  sx={movingLogoSx}
-                />
-
-                <Box
-                  component="img"
-                  src={arrowUpRight}
-                  alt=""
-                  sx={movingArrowSx}
-                />
-
-                <Box
-                  component="img"
-                  src={arrowUpRight}
-                  alt=""
-                  sx={{
-                    ...movingArrowSx,
-                    transform: "rotate(180deg)",
-                  }}
-                />
-
-                <Box
-                  component="img"
-                  src={arrowUpRight}
-                  alt=""
-                  sx={movingArrowSx}
-                />
-
-                <Box
-                  component="img"
-                  src={arrowUpRight}
-                  alt=""
-                  sx={{
-                    ...movingArrowSx,
-                    transform: "rotate(180deg)",
-                  }}
-                />
-              </Box>
-            ))}
-          </motion.div>
-        </Box>
       </Box>
     </>
   );

@@ -128,7 +128,7 @@ export default function EventSection() {
         </Grid>
 
         <Box>
-          <Typography sx={{ textAlign: "center", my: 3 }}>
+          <Typography sx={{ textAlign: "center", mb: 3,mt:6 }}>
             Digital Portfolio downloads
           </Typography>
           <Box

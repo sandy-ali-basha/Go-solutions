@@ -49,7 +49,7 @@ const items = [
     client: "Retail Brand",
     event: "Launch Activation",
     desc: "A high-touch activation with custom-built displays, visitor interaction points, and a visual system designed for social sharing.",
-    bg: `radial-gradient(circle at bottom, transparent 40%, #57250a 39%, transparent 80%)`,
+    bg: `radial-gradient(circle at bottom, transparent 40%, #81360e 39%, transparent 80%)`,
   },
   {
     title: "Exhibition Booths",
@@ -67,7 +67,7 @@ const items = [
     client: "Private Client",
     event: "Executive Reception",
     desc: "A refined reception plan with atmospheric lighting, venue styling, and a concise run-of-show for a premium audience.",
-    bg: `radial-gradient(circle at bottom, transparent 37%, #54138a79 54%, transparent 75%)`,
+    bg: `radial-gradient(circle at bottom, transparent 37%, #8a6a1379 54%, transparent 75%)`,
   },
   {
     title: "Product Launch",
@@ -94,7 +94,7 @@ const items = [
     client: "Lifestyle Brand",
     event: "Community Experience",
     desc: "An audience-focused event concept combining spatial design, photo moments, and branded interactions for strong visitor recall.",
-    bg: "radial-gradient(circle at 100% 100%, #0505056e 25%, transparent 70%),radial-gradient(circle at 20% 100%, #0c3f57 5%, transparent 70%)",
+    bg: "radial-gradient(circle at 100% 100%, #0505056e 25%, transparent 70%),radial-gradient(circle at 20% 100%, #d88146 5%, transparent 70%)",
   },
 ];
 
@@ -352,7 +352,7 @@ export default function Services() {
                 height: { xs: 280, md: "80vh" },
                 ml: "50%",
                 transform: "translateX(-50%)",
-                objectFit: "contain",
+                objectFit: "cover",
                 display: "block",
                 borderRadius: { xs: "20px", md: "40px" },
                 mb: 3,

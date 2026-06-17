@@ -14,6 +14,7 @@ import TechSolution from "components/modules/home/TechSolution";
 import Reveal from "components/common/Reveal";
 import Logo3D from "components/Logo3d";
 import ContactUsSection from "components/modules/home/ContactUsSection";
+import ContactUs from "./ContactUs/page";
 
 export default function Home() {
   const isMobile = useMediaQuery("(max-width:899px)");
@@ -116,7 +117,8 @@ export default function Home() {
         <CompanyPortfolioSection />
         <EventSection />
         <TechSolution />
-        <ContactUsSection />
+        {/* <ContactUsSection /> */}
+        <ContactUs/>
       </Box>
     </Box>
   );

@@ -87,8 +87,8 @@ function AnimatedText({ firstText, secondText }) {
             scale: 1.3,
             x: springX,
             y: springY,
-            width:  "clamp(30px, 7vw, 110px)",
-            height: "clamp(30px, 7vw, 110px)",
+            width:  "clamp(30px, 6vw, 70px)",
+            height: "clamp(30px, 6vw, 70px)",
             position: "relative",
             display: "flex",
             alignItems: "center",
@@ -118,8 +118,8 @@ function AnimatedText({ firstText, secondText }) {
               position: "absolute",
               inset: 0,
               mixBlendMode: "revert",
-              width:"55%",
-              height: "55%",
+              width:"6vw",
+              height: "6vw",
             }}
           >
             <motion.div
