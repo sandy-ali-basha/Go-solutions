@@ -1,9 +1,6 @@
 import React, { useMemo, useState } from "react";
 import { Box, Container, Typography } from "@mui/material";
-import {
-  motion,
-  AnimatePresence,
-} from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import arrow from "assets/images/icons/gradientArrow.svg";
 import arrowUp from "assets/images/icons/arrowUpRight.svg";
 import Ostar from "assets/images/icons/oStar.svg";
@@ -50,7 +47,7 @@ const services = [
       </>
     ),
     description:
-      "At Go event Management, we turn ideas into unforgettable experiences. As a full-service event management company, we specialize in crafting seamless, innovative, and impactful events tailored to your vision. From corporate gatherings and exhibitions to immersive brand activations and large-scale celebrations, we bring creativity, precision, and flawless execution to every project.",
+      "GO Events delivers corporate events, immersive activations, exhibition environments, and executive experiences across Saudi Arabia and the GCC. Through integrated production, technology, and operations, we transform ideas into memorable experiences.",
   },
   {
     category: "Immersive",
@@ -64,7 +61,7 @@ const services = [
     ],
     rightTitle: "INNOVATIVE DIGITAL EXPERIENCES.",
     description:
-      "We create immersive technology-driven brand experiences using innovative visuals, installations, and interactive environments designed to leave a lasting impression.",
+      "GO Events delivers corporate events, immersive activations, exhibition environments, and executive experiences across Saudi Arabia and the GCC. Through integrated production, technology, and operations, we transform ideas into memorable experiences.",
   },
   {
     category: "Creative",
@@ -139,159 +136,69 @@ export default function ServicesShowcase() {
           ))}
         </Box>
 
-        {/* MAIN SECTION */}
-
         <Box
           sx={{
             display: "grid",
-            gridTemplateColumns: { xs: "1fr", md: "1fr 1fr" },
-            gap: 8,
+            gridTemplateColumns: {
+              xs: "1fr",
+              lg: "300px 1fr",
+            },
             alignItems: "center",
+            gap: { xs: 5, lg: 6 },
+            minHeight: "70vh",
           }}
         >
-          {/* LEFT SIDE */}
-          <Box sx={{ textAlign: "right" }}>
-            {services.map((service, index) => {
-              const isActive = index === activeIndex;
-              return (
-                <MotionBox
-                  key={service.title}
-                  onMouseEnter={() => {
-                    setActiveIndex(index);
-                    setCursorActive(true);
-                  }}
-                  onMouseLeave={() => {
-                    setCursorActive(false);
-                  }}
-                  initial={{ opacity: 0, y: 80 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{
-                    duration: 0.5,
-                    delay: index * 0.1,
-                    ease: [0.22, 1, 0.36, 1],
-                  }}  
-                  animate={{
-                    scale: isActive ? 1 : 0.9,
-                    opacity: isActive ? 1 : 0.2,
-                  }}
-                  sx={{
-                    mb: 1,
-                    cursor: "none",
-                    transformOrigin: "left center",
-                    transition: "0.2s",
-                  }}
-                >
-                  <Box
-                    sx={{
-                      display: "flex",
-                      justifyContent: "flex-end",
-                      alignItems: "flex-end",
-                    }}
-                  >
-                    <Typography
-                      sx={{
-                        color: isActive ? "white" : "#4F5560",
-                        fontWeight: 600,
-                        fontSize: {
-                          xs: "0.9rem",
-                          md: "1rem",
-                        },
-                      }}
-                    >
-                      {service.category}
-                    </Typography>
-
-                    <Typography
-                      sx={{
-                        fontWeight: 700,
-                        fontSize: {
-                          xs: "2.5rem",
-                          md: isActive ? "3.5rem" : "2.5rem",
-                        },
-                        color: isActive ? "white" : "#2E3440",
-                        transition: "all 0.45s cubic-bezier(0.22,1,0.36,1)",
-                      }}
-                    >
-                      {service.title}
-                    </Typography>
-                  </Box>
-
-                  <AnimatePresence>
-                    {isActive && (
-                      <MotionBox
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: "auto" }}
-                        exit={{ opacity: 0, height: 0 }}
-                        transition={{ duration: 0.4 }}
-                        sx={{
-                          overflow: "hidden",
-                          pl: 1,
-                          pt: 2,
-                        }}
-                      >
-                        {service.items.map((item) => (
-                          <Typography
-                            key={item}
-                            sx={{
-                              fontSize: "1.05rem",
-                              color: "rgba(255,255,255,0.85)",
-                              mb: 1,
-                            }}
-                          >
-                            {item}
-                          </Typography>
-                        ))}
-                      </MotionBox>
-                    )}
-                  </AnimatePresence>
-                </MotionBox>
-              );
-            })}
-          </Box>
-
-          {/* RIGHT SIDE */}
-
+          {/* LEFT ICON */}
           <AnimatePresence mode="wait">
             <MotionBox
               key={activeService.title}
-              initial={{ opacity: 0, x: 80 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -40 }}
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.9 }}
+              transition={{ duration: 0.45 }}
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
+              <Box
+                component="img"
+                src={arrow}
+                sx={{
+                  width: {
+                    xs: 200,
+                    md: 300,
+                    lg: 350,
+                  },
+                }}
+              />
+            </MotionBox>
+          </AnimatePresence>
+
+          {/* RIGHT CONTENT */}
+          <AnimatePresence mode="wait">
+            <MotionBox
+              key={activeService.title}
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
               transition={{
-                duration: 0.55,
+                duration: 0.45,
                 ease: [0.22, 1, 0.36, 1],
               }}
             >
-              <MotionBox
-                animate={{
-                  rotate: [0, -2, 0],
-                }}
-                transition={{
-                  repeat: Infinity,
-                  duration: 5,
-                  ease: "easeInOut",
-                }}
-                sx={{
-                  mb: 5,
-                }}
-              />
-              <Box
-                component={"img"}
-                src={arrow}
-                sx={{ width: "10vw", mb: 2 }}
-              ></Box>
-
               <Typography
                 sx={{
                   fontSize: {
-                    xs: "2.2rem",
-                    md: "2.5rem",
+                    xs: "2.8rem",
+                    md: "4rem",
+                    lg: "5rem",
                   },
-                  lineHeight: 1,
-                  fontWeight: 600,
-                  mb: 2,
-                  fontFamily: "gilroy",
+                  lineHeight: 0.95,
+                  fontWeight: 500,
+                  mb: 3,
+                  letterSpacing: "-0.05em",
+                  textTransform: "uppercase",
                 }}
               >
                 {activeService.rightTitle}
@@ -299,14 +206,78 @@ export default function ServicesShowcase() {
 
               <Typography
                 sx={{
-                  fontSize: "1rem",
-                  maxWidth: 580,
-                  fontWeight: 300,
-                  letterSpacing: "-2%",
+                  maxWidth: 800,
+                  color: "rgba(255,255,255,.72)",
+                  fontSize: "1.05rem",
+                  lineHeight: 1.8,
+                  mb: 6,
+                  mt: 2,
                 }}
               >
                 {activeService.description}
               </Typography>
+
+              <Box
+                sx={{
+                  display: "grid",
+                  gridTemplateColumns: {
+                    xs: "1fr",
+                    sm: "repeat(2,1fr)",
+                    lg: "repeat(3,1fr)",
+                  },
+                  gap: 3,
+                  maxWidth: 850,
+                }}
+              >
+                {activeService.items.map((item, i) => (
+                  <MotionBox
+                    key={item}
+                    whileHover={{
+                      x: 8,
+                    }}
+                    transition={{ duration: 0.25 }}
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 2,
+                      cursor: "pointer",
+                    }}
+                  >
+                    <Box
+                      sx={{
+                        height: 18, // controls how much of the number is visible
+                        overflow: "hidden",
+                        width: 38,
+                        display: "flex",
+                        alignItems: "flex-start",
+                      }}
+                    >
+                      <Typography
+                        sx={{
+                          fontSize: "2rem",
+                          fontWeight: 500,
+                          lineHeight: 1,
+                          color: "#FF5B2E",
+                          // WebkitTextStroke: "2px #FF5B2E",
+                          fontFamily: "Gilroy",
+                          userSelect: "none",
+                        }}
+                      >
+                        {String(i + 1).padStart(2, "0")}
+                      </Typography>
+                    </Box>
+
+                    <Typography
+                      sx={{
+                        color: "white",
+                        fontWeight: 500,
+                      }}
+                    >
+                      {item}
+                    </Typography>
+                  </MotionBox>
+                ))}
+              </Box>
             </MotionBox>
           </AnimatePresence>
         </Box>

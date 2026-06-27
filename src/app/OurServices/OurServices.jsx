@@ -46,15 +46,15 @@ export default function OurServices() {
         <ServicesShowcase></ServicesShowcase>
       </Reveal>
 
-      <FolderCardsSection />
+      {/* <FolderCardsSection /> */}
       <Box
         sx={{
           background:
             "linear-gradient(  180deg,  #1B1B1B 0%,   #FE572A 50%,  #1B1B1B 100%)",
         }}
       >
-        <MeetGoTeam />
         <ValuableIsosSection />
+        <MeetGoTeam />
       </Box>
     </Box>
   );
