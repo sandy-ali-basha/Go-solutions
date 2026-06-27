@@ -99,7 +99,7 @@ export default function ServicesShowcase() {
     >
       <CursorFollower active={cursorActive} />
 
-      <Container maxWidth="xl">
+      <Container maxWidth="lg">
         {/* TOP MENU */}
 
         <Box
