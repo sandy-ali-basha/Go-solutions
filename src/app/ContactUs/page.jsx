@@ -27,6 +27,7 @@ import {
 import { useContactUs } from "hooks/contactUs/useContactUs";
 import Seo from "components/Seo";
 import {  useScroll, useSpring, useTransform } from "framer-motion";
+import { useDashboardContactFooterSetting } from "hooks/dashboard/useDashboardHomeContent";
 
 import arrowUpRight from "assets/images/icons/gradientArrow.svg";
 import star from "assets/images/icons/oStar.svg";
@@ -82,8 +83,18 @@ export default function ContactUs() {
   const { mutate, isLoading } = useMutation((data) => createPost(data));
 
   const { data: contactData } = useContactUs();
+  const { data: dashboardContactData } = useDashboardContactFooterSetting();
 
   const contactInfo = contactData?.data?.[0] || {};
+  const dashboardContactInfo = dashboardContactData?.data || {};
+  const contactLinks = {
+    email: dashboardContactInfo.email || contactInfo?.email || "",
+    facebook: dashboardContactInfo.facebook_url || contactInfo?.facebook || "#",
+    instagram:
+      dashboardContactInfo.instagram_url || contactInfo?.instagram || "#",
+    linkedin: dashboardContactInfo.linkedin_url || contactInfo?.linkedin || "#",
+    whatsapp: dashboardContactInfo.whatsapp || contactInfo?.whatsapp || "",
+  };
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -220,28 +231,28 @@ export default function ContactUs() {
                   }}
                 >
                   <Link
-                    href={`mailto:${contactInfo?.email || ""}`}
+                    href={`mailto:${contactLinks.email}`}
                     target="_blank"
                   >
                     <Email sx={{ color: "#fff" }} />
                   </Link>
 
-                  <Link href={contactInfo?.facebook || "#"} target="_blank">
+                  <Link href={contactLinks.facebook} target="_blank">
                     <Facebook sx={{ color: "#fff" }} />
                   </Link>
 
-                  <Link href={contactInfo?.instagram || "#"} target="_blank">
+                  <Link href={contactLinks.instagram} target="_blank">
                     <Instagram sx={{ color: "#fff" }} />
                   </Link>
 
-                  <Link href={contactInfo?.linkedin || "#"} target="_blank">
+                  <Link href={contactLinks.linkedin} target="_blank">
                     <LinkedIn sx={{ color: "#fff" }} />
                   </Link>
 
                   <Link
                     href={
-                      contactInfo?.whatsapp
-                        ? `https://wa.me/${contactInfo.whatsapp}`
+                      contactLinks.whatsapp
+                        ? `https://wa.me/${contactLinks.whatsapp}`
                         : "#"
                     }
                     target="_blank"

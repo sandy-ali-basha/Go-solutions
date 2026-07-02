@@ -1,11 +1,12 @@
 import React, { useRef, useState } from "react";
-import { Box, Container, Grid, Typography } from "@mui/material";
+import { Box, Container, Grid, Skeleton, Typography } from "@mui/material";
 import {
   motion,
   useMotionValueEvent,
   useScroll,
   useTransform,
 } from "framer-motion";
+import { useDashboardEventMotionStats } from "hooks/dashboard/useDashboardHomeContent";
 
 const stats = [
   {
@@ -46,6 +47,11 @@ function CountUpNumber({ value }) {
 }
 export default function StatsSection() {
   const ref = useRef(null);
+  const { data, isLoading } = useDashboardEventMotionStats();
+  const dashboardStats = Array.isArray(data?.data) && data.data.length
+    ? data.data
+    : null;
+  const displayedStats = dashboardStats || stats;
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start 95%", "end 55%"],
@@ -69,8 +75,19 @@ export default function StatsSection() {
           justifyContent="center"
           alignItems={"center"}
         >
-          {stats.map((item, index) => (
+          {(isLoading ? Array.from({ length: 3 }) : displayedStats).map((item, index) => (
             <Grid item xs={12} md={4} key={index} >
+              {isLoading ? (
+                <Skeleton
+                  variant="rounded"
+                  height={128}
+                  sx={{
+                    mx: 2,
+                    bgcolor: "rgba(255,255,255,0.16)",
+                    borderRadius: 2,
+                  }}
+                />
+              ) : (
               <Box
                 sx={{
                   display: "flex",
@@ -178,6 +195,7 @@ export default function StatsSection() {
                   </Box>
                 </Box>
               </Box>
+              )}
             </Grid>
           ))}
         </Grid>

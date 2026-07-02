@@ -9,6 +9,7 @@ import CaroselSection from "components/modules/home/CaroselSection.jsx";
 import ClientsIndustriesSection from "components/modules/home/ClientsIndustriesSection.jsx";
 import CompanyPortfolioSection from "components/modules/home/CompanyPortfolioSection";
 import EventSection from "components/modules/home/EventSection";
+import HomeVideoSection from "components/modules/home/HomeVideoSection";
 import TechSolution from "components/modules/home/TechSolution";
 
 import Reveal from "components/common/Reveal";
@@ -111,6 +112,7 @@ export default function Home() {
 
       <Box sx={{ position: "relative", zIndex: 2 }}>
         <CaroselSection />
+        <HomeVideoSection />
         <Reveal>
           <ClientsIndustriesSection />
         </Reveal>

@@ -20,6 +20,7 @@ import locationIcon from "assets/images/icons/location.svg";
 import instagramIcon from "assets/images/icons/socialmedia.svg";
 import AnimatedButton from "components/common/AnimatedButton";
 import TypingText from "components/common/TypingText";
+import { useDashboardContactFooterSetting } from "hooks/dashboard/useDashboardHomeContent";
 
 const inputStyles = {
   border: "1px solid #D9D9D9",
@@ -37,29 +38,39 @@ const inputStyles = {
 function Footer() {
   const { t } = useTranslation("index");
   const { data } = useContactUs();
+  const { data: dashboardContactData } = useDashboardContactFooterSetting();
 
   const contactInfo = data?.data?.[0] || {};
+  const dashboardContactInfo = dashboardContactData?.data || {};
+  const phone = dashboardContactInfo.phone || contactInfo?.phone || "+966 559 10820";
+  const email = dashboardContactInfo.email || contactInfo?.email || "Maa@Goeventsa.Com";
+  const instagramLabel = dashboardContactInfo.instagram_label || "@Goeventsa";
+  const instagramUrl =
+    dashboardContactInfo.instagram_url || contactInfo?.instagram || "#";
+  const address =
+    dashboardContactInfo.address || "Go Event Mangement, Riyadh KSA";
+  const addressUrl = dashboardContactInfo.address_url || "#";
 
   const contactItems = [
     {
       icon: phoneIcon,
-      text: contactInfo?.phone || "+966 559 10820",
-      href: `tel:${contactInfo?.phone}`,
+      text: phone,
+      href: `tel:${phone}`,
     },
     {
       icon: emailIcon,
-      text: contactInfo?.email || "Maa@Goeventsa.Com",
-      href: `mailto:${contactInfo?.email}`,
+      text: email,
+      href: `mailto:${email}`,
     },
     {
       icon: instagramIcon,
-      text: "@Goeventsa",
-      href: contactInfo?.instagram || "#",
+      text: instagramLabel,
+      href: instagramUrl,
     },
     {
       icon: locationIcon,
-      text: "Go Event Mangement, Riyadh KSA",
-      href: "#",
+      text: address,
+      href: addressUrl,
     },
   ];
 

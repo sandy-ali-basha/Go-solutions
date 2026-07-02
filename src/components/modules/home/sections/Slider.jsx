@@ -6,7 +6,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { EffectCards, Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { portfolioSlides } from "../portfolioData";
-function Slider() {
+function Slider({ slides = portfolioSlides }) {
   const navigate = useNavigate();
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({
@@ -116,7 +116,7 @@ function Slider() {
             overflow: "visible",
           }}
         >
-          {portfolioSlides.map((slide) => (
+          {slides.map((slide) => (
             <SwiperSlide
               style={{
                 overflow: "visible",

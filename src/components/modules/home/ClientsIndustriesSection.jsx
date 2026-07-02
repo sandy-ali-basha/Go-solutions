@@ -9,10 +9,21 @@ import {
   RoomServiceOutlined,
 } from "@mui/icons-material";
 
-import { Box, Container, Divider, Grid, Typography } from "@mui/material";
+import {
+  Box,
+  Container,
+  Divider,
+  Grid,
+  Skeleton,
+  Typography,
+} from "@mui/material";
 
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
+import {
+  useDashboardIndustries,
+  useDashboardTrustedClients,
+} from "hooks/dashboard/useDashboardHomeContent";
 
 import client1 from "assets/images/clients/client (1).svg";
 import client2 from "assets/images/clients/client (2).svg";
@@ -75,6 +86,7 @@ function ClientLogo({ client, index, scrollYProgress }) {
 
 function IndustryItem({ industry, index, scrollYProgress }) {
   const Icon = industry.icon;
+  const image = industry.image_url || industry.image;
   const y = useTransform(scrollYProgress, [0.2, 1], [32 + index * 3, 0]);
   const opacity = useTransform(scrollYProgress, [0.2, 0.75], [0, 1]);
 
@@ -91,29 +103,58 @@ function IndustryItem({ industry, index, scrollYProgress }) {
         minHeight: 96,
       }}
     >
-      <Icon
-        sx={{
-          fontSize: 30,
-          color: "white",
-        }}
-      />
-
-      <Typography
-        variant="body1"
-        sx={{
-          fontSize: { xs: "0.95rem", md: "1rem" },
-          lineHeight: 1.25,
-          fontWeight: 300,
-        }}
-      >
-        {industry.label}
-      </Typography>
+      {image ? (
+        <Box
+          component="img"
+          src={image}
+          alt={"client"}
+          sx={{
+            width: 38,
+            height: 38,
+            objectFit: "contain",
+            filter: "brightness(0) invert(1)",
+          }}
+        />
+      ) : (
+        Icon && (
+          <Icon
+            sx={{
+              fontSize: 30,
+              color: "white",
+            }}
+          />
+        )
+      )}
     </MotionBox>
   );
 }
 
 function ClientsIndustriesSection() {
   const ref = useRef(null);
+  const {
+    data: trustedClientsData,
+    isLoading: isLoadingTrustedClients,
+  } = useDashboardTrustedClients();
+  const { data: industriesData, isLoading: isLoadingIndustries } =
+    useDashboardIndustries();
+  const trustedClients = Array.isArray(trustedClientsData?.data)
+    ? trustedClientsData.data
+    : [];
+  const dashboardIndustries = Array.isArray(industriesData?.data)
+    ? industriesData.data
+    : [];
+  const displayedClients = trustedClients.length
+    ? trustedClients.map((client) => ({
+        id: client.id,
+        name: client.name,
+        logo: client.logo_url,
+      }))
+    : clients;
+
+
+  const displayedIndustries = dashboardIndustries.length
+    ? dashboardIndustries
+    : industries;
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start 85%", "end 45%"],
@@ -165,8 +206,8 @@ function ClientsIndustriesSection() {
           justifyContent="center"
           sx={{ mb: { xs: 8, md: 10 } }}
         >
-          {clients.map((client, index) => (
-            <Grid item xs={6} sm={4} md key={client.id}>
+          {(isLoadingTrustedClients ? Array.from({ length: 5 }) : displayedClients).map((client, index) => (
+            <Grid item xs={6} sm={4} md key={client?.id || index}>
               <Box
                 sx={{
                   display: "flex",
@@ -175,11 +216,20 @@ function ClientsIndustriesSection() {
                   minHeight: { xs: 48, md: 64 },
                 }}
               >
-                <ClientLogo
-                  client={client}
-                  index={index}
-                  scrollYProgress={scrollYProgress}
-                />
+                {isLoadingTrustedClients ? (
+                  <Skeleton
+                    variant="rounded"
+                    width={130}
+                    height={46}
+                    sx={{ bgcolor: "rgba(255,255,255,0.16)" }}
+                  />
+                ) : (
+                  <ClientLogo
+                    client={client}
+                    index={index}
+                    scrollYProgress={scrollYProgress}
+                  />
+                )}
               </Box>
             </Grid>
           ))}
@@ -235,14 +285,32 @@ function ClientsIndustriesSection() {
         {/* INDUSTRIES */}
 
         <Grid container spacing={{ xs: 3, md: 2 }} justifyContent="center">
-          {industries.map((industry, index) => {
+          {(isLoadingIndustries ? Array.from({ length: 8 }) : displayedIndustries).map((industry, index) => {
             return (
-              <Grid item xs={6} sm={4} md={1.5} key={industry.id}>
-                <IndustryItem
-                  industry={industry}
-                  index={index}
-                  scrollYProgress={scrollYProgress}
-                />
+              <Grid item xs={6} sm={4} md={1.5} key={industry?.id || index}>
+                {isLoadingIndustries ? (
+                  <Box
+                    sx={{
+                      minHeight: 96,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <Skeleton
+                      variant="circular"
+                      width={42}
+                      height={42}
+                      sx={{ bgcolor: "rgba(255,255,255,0.16)" }}
+                    />
+                  </Box>
+                ) : (
+                  <IndustryItem
+                    industry={industry}
+                    index={index}
+                    scrollYProgress={scrollYProgress}
+                  />
+                )}
               </Grid>
             );
           })}

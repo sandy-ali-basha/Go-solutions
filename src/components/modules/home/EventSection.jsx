@@ -1,11 +1,20 @@
 import React, { useRef } from "react";
-import { Box, Card, CardContent, Container, Grid, Typography } from "@mui/material";
+import {
+  Box,
+  Card,
+  CardContent,
+  Container,
+  Grid,
+  Skeleton,
+  Typography,
+} from "@mui/material";
 import { ExpandMore } from "@mui/icons-material";
 import { motion, useScroll, useTransform } from "framer-motion";
 
 import StatsSection from "./sections/StatsSection";
 import AnimatedText from "components/common/AnimatedText";
 import AnimatedButton from "components/common/AnimatedButton";
+import { useDashboardEventsInMotion } from "hooks/dashboard/useDashboardHomeContent";
 
 const cards = [
   {
@@ -96,6 +105,13 @@ function EventCard({ card, index, scrollYProgress }) {
 
 export default function EventSection() {
   const ref = useRef(null);
+  const { data, isLoading } = useDashboardEventsInMotion();
+  const events = Array.isArray(data?.data) && data.data.length
+    ? data.data.map((event) => ({
+        title: event.title,
+        desc: event.description,
+      }))
+    : cards;
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start 88%", "end 45%"],
@@ -116,13 +132,24 @@ export default function EventSection() {
         <StatsSection />
 
         <Grid container spacing={3}>
-          {cards.map((card, index) => (
-            <Grid item xs={12} sm={6} md={3} key={card.title}>
-              <EventCard
-                card={card}
-                index={index}
-                scrollYProgress={scrollYProgress}
-              />
+          {(isLoading ? Array.from({ length: 4 }) : events).map((card, index) => (
+            <Grid item xs={12} sm={6} md={3} key={card?.title || index}>
+              {isLoading ? (
+                <Skeleton
+                  variant="rounded"
+                  height={220}
+                  sx={{
+                    borderRadius: "15px",
+                    bgcolor: "rgba(255,255,255,0.16)",
+                  }}
+                />
+              ) : (
+                <EventCard
+                  card={card}
+                  index={index}
+                  scrollYProgress={scrollYProgress}
+                />
+              )}
             </Grid>
           ))}
         </Grid>

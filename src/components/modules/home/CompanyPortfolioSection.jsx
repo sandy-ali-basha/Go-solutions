@@ -3,8 +3,23 @@ import Slider from "./sections/Slider";
 import AnimatedText from "components/common/AnimatedText";
 import TypingText from "components/common/TypingText";
 import huawei from "assets/images/icons/huawei.svg";
+import { useDashboardCompanyPortfolios } from "hooks/dashboard/useDashboardHomeContent";
 
 function CompanyPortfolioSection() {
+  const { data } = useDashboardCompanyPortfolios();
+  const portfolios = data?.data?.length
+    ? data.data
+        .filter((portfolio) => portfolio.image_url)
+        .map((portfolio) => ({
+          id: portfolio.id,
+          title: portfolio.title,
+          description: portfolio.description,
+          image: portfolio.image_url,
+          testimonial: portfolio.testimonial,
+        }))
+    : null;
+  const testimonial = portfolios?.[0]?.testimonial;
+
   return (
     <Box
       sx={{
@@ -17,7 +32,7 @@ function CompanyPortfolioSection() {
         secondText={"mpany Portfolio"}
       ></AnimatedText>
       {/* slider */}
-      <Slider />
+      <Slider slides={portfolios || undefined} />
 
       <Box
         sx={{
@@ -53,13 +68,14 @@ function CompanyPortfolioSection() {
             }}
           >
             <Box component="span" sx={{ fontWeight: 700 }}>
-              "At Go Event Management,
+              {testimonial?.title || "At Go Event Management,"}
             </Box>{" "}
             <TypingText
               sx={{ width: "100%" }}
-              text="We turn ideas into unforgettable experiences. As a full-service
-                      event management company, we specialize in crafting seamless,
-                      innovative, and impactful events tailored to your vision."
+              text={
+                testimonial?.description ||
+                "We turn ideas into unforgettable experiences. As a full-service event management company, we specialize in crafting seamless, innovative, and impactful events tailored to your vision."
+              }
             ></TypingText>
           </Typography>
 
@@ -94,10 +110,10 @@ function CompanyPortfolioSection() {
                   variant="body2"
                   sx={{ fontWeight: 600, color: "white" }}
                 >
-                  Mohamed sultan
+                  {testimonial?.name || "Mohamed sultan"}
                 </Typography>
                 <Typography variant="caption" sx={{ color: "#ffffff" }}>
-                  Marketing Coordinator
+                  {testimonial?.role || "Marketing Coordinator"}
                 </Typography>
               </Box>
             </Box>
@@ -120,7 +136,8 @@ function CompanyPortfolioSection() {
             >
               <Box
                 component="img"
-                src={huawei}
+                src={testimonial?.company_logo_url || huawei}
+                alt={testimonial?.company || "Company logo"}
                 sx={{
                   width: 42,
                   height: 24,
