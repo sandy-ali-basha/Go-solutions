@@ -26,6 +26,8 @@ class EventInMotionResource extends Resource
 
     protected static ?string $pluralModelLabel = 'Events In Motion';
 
+    protected static string|\UnitEnum|null $navigationGroup = 'Home';
+
     public static function form(Schema $schema): Schema
     {
         return EventInMotionForm::configure($schema);

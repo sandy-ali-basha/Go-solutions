@@ -5,6 +5,7 @@ import arrow from "assets/images/icons/gradientArrow.svg";
 import arrowUp from "assets/images/icons/arrowUpRight.svg";
 import Ostar from "assets/images/icons/oStar.svg";
 import CursorFollower from "components/common/CursorFollower";
+import { useDashboardTechSolutionServices } from "hooks/dashboard/useDashboardHomeContent";
 
 const MotionBox = motion(Box);
 
@@ -82,10 +83,22 @@ const services = [
 export default function ServicesShowcase() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [cursorActive, setCursorActive] = useState(false);
+  const { data } = useDashboardTechSolutionServices();
+  const dashboardServices = Array.isArray(data?.data)
+    ? data.data.map((service) => ({
+        category: "Service",
+        title: service.title,
+        items: [],
+        rightTitle: service.title,
+        description: service.description,
+        image: service.image_url,
+      }))
+    : [];
+  const displayServices = dashboardServices.length ? dashboardServices : services;
 
   const activeService = useMemo(() => {
-    return services[activeIndex];
-  }, [activeIndex]);
+    return displayServices[activeIndex] || displayServices[0];
+  }, [activeIndex, displayServices]);
 
   return (
     <Box
@@ -113,27 +126,33 @@ export default function ServicesShowcase() {
             justifyContent: "center",
           }}
         >
-          {[
-            "Corporate & Events",
-            "Team Building Activities",
-            "Branding Solutions",
-            "Technology & AV",
-            "Logistics & Operations",
-          ].map((item) => (
+          {displayServices.map((service, index) => {
+            const isActive = activeIndex === index;
+
+            return (
             <Typography
-              key={item}
+              key={`${service.title}-${index}`}
+              component="button"
+              type="button"
+              onMouseEnter={() => setActiveIndex(index)}
+              onClick={() => setActiveIndex(index)}
               sx={{
+                border: 0,
+                background: "transparent",
                 fontSize: "0.95rem",
                 cursor: "pointer",
                 transition: "0.3s",
+                color: isActive ? "#FF5B2E" : "rgba(255,255,255,0.75)",
+                fontFamily: "inherit",
                 "&:hover": {
                   color: "#FF5B2E",
                 },
               }}
             >
-              {item}
+              {service.title}
             </Typography>
-          ))}
+            );
+          })}
         </Box>
 
         <Box
@@ -163,13 +182,17 @@ export default function ServicesShowcase() {
             >
               <Box
                 component="img"
-                src={arrow}
+                src={activeService.image || arrow}
+                alt=""
                 sx={{
                   width: {
                     xs: 200,
                     md: 300,
                     lg: 350,
                   },
+                  maxHeight: { xs: 220, md: 360 },
+                  objectFit: activeService.image ? "cover" : "contain",
+                  borderRadius: activeService.image ? "24px" : 0,
                 }}
               />
             </MotionBox>
@@ -229,7 +252,10 @@ export default function ServicesShowcase() {
                   maxWidth: 850,
                 }}
               >
-                {activeService.items.map((item, i) => (
+                {(activeService.items?.length
+                  ? activeService.items
+                  : [activeService.category]
+                ).map((item, i) => (
                   <MotionBox
                     key={item}
                     whileHover={{

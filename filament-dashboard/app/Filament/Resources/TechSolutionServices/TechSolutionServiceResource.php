@@ -26,6 +26,8 @@ class TechSolutionServiceResource extends Resource
 
     protected static ?string $pluralModelLabel = 'Tech Solution Services';
 
+    protected static string|\UnitEnum|null $navigationGroup = 'Home';
+
     public static function form(Schema $schema): Schema
     {
         return TechSolutionServiceForm::configure($schema);

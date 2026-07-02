@@ -22,4 +22,8 @@ export const dashboardHomeContentApi = {
     dashboardApi.get("/contact-footer-setting").then((res) => res.data),
   eventMotionStats: () =>
     dashboardApi.get("/event-motion-stats").then((res) => res.data),
+  projects: () => dashboardApi.get("/projects").then((res) => res.data),
+  certifications: () =>
+    dashboardApi.get("/certifications").then((res) => res.data),
+  teamMembers: () => dashboardApi.get("/team-members").then((res) => res.data),
 };

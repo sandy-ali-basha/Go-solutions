@@ -26,6 +26,8 @@ class TrustedClientResource extends Resource
 
     protected static ?string $pluralModelLabel = 'Trusted Clients';
 
+    protected static string|\UnitEnum|null $navigationGroup = 'Home';
+
     public static function form(Schema $schema): Schema
     {
         return TrustedClientForm::configure($schema);

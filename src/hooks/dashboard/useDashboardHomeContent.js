@@ -60,3 +60,17 @@ export const useDashboardEventMotionStats = () =>
       retry: false,
     },
   );
+
+export const useDashboardCertifications = () =>
+  useQuery(
+    ["dashboardCertifications"],
+    dashboardHomeContentApi.certifications,
+    {
+      retry: false,
+    },
+  );
+
+export const useDashboardTeamMembers = () =>
+  useQuery(["dashboardTeamMembers"], dashboardHomeContentApi.teamMembers, {
+    retry: false,
+  });

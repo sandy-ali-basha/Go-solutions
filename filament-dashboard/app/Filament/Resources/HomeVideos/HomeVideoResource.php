@@ -26,6 +26,8 @@ class HomeVideoResource extends Resource
 
     protected static ?string $pluralModelLabel = 'Home Videos';
 
+    protected static string|\UnitEnum|null $navigationGroup = 'Home';
+
     public static function form(Schema $schema): Schema
     {
         return HomeVideoForm::configure($schema);

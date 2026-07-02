@@ -7,6 +7,7 @@ import image3 from "assets/images/isos/iso3.png";
 import arrow from "assets/images/icons/gradientArrow.svg";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Autoplay } from "swiper/modules";
+import { useDashboardCertifications } from "hooks/dashboard/useDashboardHomeContent";
 
 const MotionBox = motion(Box);
 
@@ -41,6 +42,20 @@ const isoCards = [
 ];
 
 export default function ValuableIsosSection() {
+  const { data } = useDashboardCertifications();
+  const dashboardCards = Array.isArray(data?.data)
+    ? data.data
+        .filter((certification) => certification.title)
+        .map((certification, index) => ({
+          id: String(index + 1).padStart(2, "0"),
+          code: certification.title,
+          subtitle: certification.subtitle,
+          image: certification.image_url,
+          alt: `${certification.title} certificate`,
+        }))
+    : [];
+  const displayCards = dashboardCards.length ? dashboardCards : isoCards;
+
   return (
     <Box
       sx={{
@@ -182,7 +197,7 @@ export default function ValuableIsosSection() {
             paddingBottom: "50px",
           }}
         >
-          {isoCards.map((card, index) => (
+          {displayCards.map((card, index) => (
             <SwiperSlide key={card.id}>
               <MotionBox
                 initial={{ opacity: 0, y: 80 }}
@@ -230,16 +245,18 @@ export default function ValuableIsosSection() {
                   </Box>
                 </Box>
 
-                <Box
-                  component="img"
-                  src={card.image}
-                  alt={card.alt}
-                  loading="lazy"
-                  sx={{
-                    width: "100%",
-                    display: "block",
-                  }}
-                />
+                {card.image && (
+                  <Box
+                    component="img"
+                    src={card.image}
+                    alt={card.alt}
+                    loading="lazy"
+                    sx={{
+                      width: "100%",
+                      display: "block",
+                    }}
+                  />
+                )}
               </MotionBox>
             </SwiperSlide>
           ))}

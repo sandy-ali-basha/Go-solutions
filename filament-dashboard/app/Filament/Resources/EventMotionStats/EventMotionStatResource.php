@@ -26,6 +26,8 @@ class EventMotionStatResource extends Resource
 
     protected static ?string $pluralModelLabel = 'Event Motion Stats';
 
+    protected static string|\UnitEnum|null $navigationGroup = 'Home';
+
     public static function form(Schema $schema): Schema
     {
         return EventMotionStatForm::configure($schema);

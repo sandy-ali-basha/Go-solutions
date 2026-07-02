@@ -10,6 +10,7 @@ import img4 from "assets/images/team/team (3).webp";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 import { Autoplay, Mousewheel } from "swiper/modules";
+import { useDashboardTeamMembers } from "hooks/dashboard/useDashboardHomeContent";
 
 const MotionBox = motion(Box);
 
@@ -162,6 +163,18 @@ function TeamCard({ member, index, scrollYProgress }) {
 
 export default function MeetGoTeam() {
   const sectionRef = useRef(null);
+  const { data } = useDashboardTeamMembers();
+  const dashboardTeam = Array.isArray(data?.data)
+    ? data.data
+        .filter((member) => member.name)
+        .map((member) => ({
+          image: member.photo_url || img1,
+          name: member.name,
+          role: member.position,
+          description: member.position,
+        }))
+    : [];
+  const displayTeam = dashboardTeam.length ? dashboardTeam : team;
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -242,9 +255,9 @@ export default function MeetGoTeam() {
             paddingBottom: "20px",
           }}
         >
-          {team.map((member, index) => (
+          {displayTeam.map((member, index) => (
             <SwiperSlide
-              key={index}
+              key={`${member.name}-${index}`}
               style={{
                 width: "auto",
               }}

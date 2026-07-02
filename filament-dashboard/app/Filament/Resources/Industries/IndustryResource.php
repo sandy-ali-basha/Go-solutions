@@ -26,6 +26,8 @@ class IndustryResource extends Resource
 
     protected static ?string $pluralModelLabel = 'Industries';
 
+    protected static string|\UnitEnum|null $navigationGroup = 'Home';
+
     public static function form(Schema $schema): Schema
     {
         return IndustryForm::configure($schema);

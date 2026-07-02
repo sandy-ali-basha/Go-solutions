@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Box, Container, Typography, useMediaQuery } from "@mui/material";
+import {
+  Box,
+  Container,
+  Skeleton,
+  Typography,
+  useMediaQuery,
+} from "@mui/material";
 import { DesignServices, Map, RemoveRedEye, Start } from "@mui/icons-material";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Lenis from "lenis";
@@ -13,9 +19,10 @@ import galleryThree from "assets/images/gallery/image (3).png";
 import galleryFour from "assets/images/gallery/image (4).png";
 import galleryFive from "assets/images/gallery/image (5).png";
 import { Pagination } from "swiper/modules";
-import logo from "assets/images/icons/arrowUpRight.svg";
 import Logo3D from "components/Logo3d";
-const galleryImages = [
+import { dashboardHomeContentApi } from "api/dashboard/homeContent";
+
+const fallbackGalleryImages = [
   galleryOne,
   galleryTwo,
   galleryThree,
@@ -23,86 +30,72 @@ const galleryImages = [
   galleryFive,
 ];
 
-const items = [
+const iconSequence = [
+  <Start key="start" />,
+  <DesignServices key="design" />,
+  <RemoveRedEye key="eye" />,
+  <Map key="map" />,
+];
+
+const staticItems = [
   {
-    title: "Live Events",
-    subtitle: "Al Hilal Saudi Football Club",
     icon: <Start />,
-    client: "Al Hilal Saudi Football Club",
-    event: "Bank Al-Riyadh Collaboration",
-    desc: "Go Event Management proudly played a role in a strategic partnership event, crafting an interactive zones, brand moments, and a focused guest journey from arrival to closing.",
     bg: `radial-gradient(circle at bottom, #00000000 37%, #3b3a3a 54%, #00000000 75%)`,
   },
   {
-    title: "Award Ceremonies",
-    subtitle: "Premium stage experience",
     icon: <DesignServices />,
-    client: "Go Creative Solutions",
-    event: "Annual Awards Night",
-    desc: "A polished ceremony concept with immersive screen content, lighting design, and elegant flow control built around memorable guest moments.",
     bg: "radial-gradient(circle at 100% 100%, #05050500 25%, transparent 70%),radial-gradient(circle at 0% 0%, #2e0000 5%, transparent 70%)",
+    galleryImages: fallbackGalleryImages,
   },
   {
-    title: "Concept Activation",
-    subtitle: "Interactive brand moments",
     icon: <RemoveRedEye />,
-    client: "Retail Brand",
-    event: "Launch Activation",
-    desc: "A high-touch activation with custom-built displays, visitor interaction points, and a visual system designed for social sharing.",
     bg: `radial-gradient(circle at bottom, transparent 40%, #81360e 39%, transparent 80%)`,
   },
   {
-    title: "Exhibition Booths",
-    subtitle: "Built environments",
     icon: <Map />,
-    client: "Technology Partner",
-    event: "Industry Expo",
-    desc: "A booth experience shaped around clear wayfinding, product storytelling, and practical visitor engagement across a compact footprint.",
     bg: "radial-gradient(circle at 100% 100%, transparent 25%, transparent 70%),radial-gradient(circle at 20% 100%, #643000 5%, transparent 70%)",
   },
   {
-    title: "Private Events",
-    subtitle: "Tailored guest journeys",
     icon: <Start />,
-    client: "Private Client",
-    event: "Executive Reception",
-    desc: "A refined reception plan with atmospheric lighting, venue styling, and a concise run-of-show for a premium audience.",
     bg: `radial-gradient(circle at bottom, transparent 37%, #8a6a1379 54%, transparent 75%)`,
   },
   {
-    title: "Product Launch",
-    subtitle: "Reveal-driven production",
     icon: <DesignServices />,
-    client: "Consumer Brand",
-    event: "Product Reveal",
-    desc: "A launch setup centered on reveal timing, stage storytelling, and media-friendly zones that keep the product in the spotlight.",
     bg: "radial-gradient(circle at 100% 100%, transparent 25%, transparent 70%),radial-gradient(circle at 0% 0%, #470d0d 5%, transparent 70%)",
   },
   {
-    title: "Conference",
-    subtitle: "Operational event planning",
     icon: <RemoveRedEye />,
-    client: "Business Group",
-    event: "Leadership Conference",
-    desc: "A structured conference environment with speaker support, branded touchpoints, and smooth transitions between sessions.",
     bg: `radial-gradient(circle at bottom, transparent 40%, #442210 39%, transparent 80%)`,
   },
   {
-    title: "Brand Experience",
-    subtitle: "Audience-first production",
     icon: <Map />,
-    client: "Lifestyle Brand",
-    event: "Community Experience",
-    desc: "An audience-focused event concept combining spatial design, photo moments, and branded interactions for strong visitor recall.",
     bg: "radial-gradient(circle at 100% 100%, #0505056e 25%, transparent 70%),radial-gradient(circle at 20% 100%, #d88146 5%, transparent 70%)",
   },
 ];
 
+const mapProjectToViewModel = (project, index) => ({
+  title: project.title || `Project ${index + 1}`,
+  subtitle: project.event_name || project.client_name || "Featured Project",
+  icon: iconSequence[index % iconSequence.length],
+  client: project.client_name || "Featured Client",
+  event: project.event_name || "Featured Event",
+  desc:
+    project.description || "A tailored event experience crafted for impact.",
+  bg: project.card_background_color
+    ? `radial-gradient(circle at bottom, transparent 40%, ${project.card_background_color}33 39%, transparent 80%)`
+    : staticItems[index % staticItems.length]?.bg,
+  galleryImages: project.gallery_images?.length
+    ? project.gallery_images
+    : fallbackGalleryImages,
+});
+
 export default function Services() {
   const isMobile = useMediaQuery("(max-width:899px)");
   const [selected, setSelected] = useState(0);
-  const [mainImage, setMainImage] = useState(galleryImages[0]);
-  const selectedProject = items[selected];
+  const [mainImage, setMainImage] = useState(null);
+  const [items, setItems] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const selectedProject = items[selected] ?? null;
   const [active, setActive] = useState(null);
 
   const { scrollYProgress } = useScroll();
@@ -147,6 +140,121 @@ export default function Services() {
       lenis.destroy();
     };
   }, [isMobile]);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    dashboardHomeContentApi
+      .projects()
+      .then((response) => {
+        const projects = (response?.data || []).map((project, index) =>
+          mapProjectToViewModel(project, index),
+        );
+
+        if (!isMounted) return;
+
+        if (projects.length) {
+          setItems(projects);
+          setSelected(0);
+          setMainImage(
+            projects[0].galleryImages[0] || fallbackGalleryImages[0],
+          );
+        } else {
+          setItems(staticItems);
+          setSelected(0);
+          setMainImage(fallbackGalleryImages[0]);
+        }
+
+        if (isMounted) {
+          setIsLoading(false);
+        }
+      })
+      .catch(() => {
+        if (!isMounted) return;
+        setItems(staticItems);
+        setSelected(0);
+        setMainImage(fallbackGalleryImages[0]);
+        setIsLoading(false);
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  const handleProjectSelect = (index, project) => {
+    setSelected(index);
+    setMainImage(project?.galleryImages?.[0] || fallbackGalleryImages[0]);
+  };
+
+  const displayGalleryImages = selectedProject?.galleryImages?.length
+    ? selectedProject.galleryImages
+    : fallbackGalleryImages;
+
+  if (isLoading) {
+    return (
+      <Box
+        sx={{
+          color: "white",
+          py: { xs: 7, md: 10 },
+          overflow: "hidden",
+        }}
+      >
+        <Container maxWidth="xl">
+          <Box
+            sx={{
+              display: "flex",
+              gap: { xs: 1, md: 2 },
+              height: { xs: 420, md: "75vh" },
+              alignItems: "stretch",
+              overflowX: "scroll",
+              scrollbarColor: "transparent transparent",
+            }}
+          >
+            {[...Array(4)].map((_, index) => (
+              <Box
+                key={index}
+                sx={{
+                  width: "clamp(66px, 7vw, 520px)",
+                  minWidth: "280px",
+                  height: "100%",
+                  borderRadius: "24px",
+                  p: 2,
+                  background: "rgba(255,255,255,0.08)",
+                  flexShrink: 0,
+                }}
+              >
+                <Skeleton variant="rectangular" width="100%" height="100%" />
+              </Box>
+            ))}
+          </Box>
+
+          <Container maxWidth="lg">
+            <Box sx={{ mt: 5 }}>
+              <Skeleton
+                variant="rectangular"
+                width="100%"
+                height={isMobile ? 280 : "80vh"}
+                sx={{ borderRadius: { xs: "20px", md: "40px" }, mb: 3 }}
+              />
+
+              <Box sx={{ display: "flex", gap: 2, flexWrap: "wrap" }}>
+                {[...Array(4)].map((_, index) => (
+                  <Skeleton
+                    key={index}
+                    variant="rectangular"
+                    width={isMobile ? "48%" : "calc(25% - 12px)"}
+                    height={isMobile ? 120 : 180}
+                    sx={{ borderRadius: { xs: "20px", md: "40px" } }}
+                  />
+                ))}
+              </Box>
+            </Box>
+          </Container>
+        </Container>
+      </Box>
+    );
+  }
 
   return (
     <Box
@@ -194,10 +302,7 @@ export default function Services() {
                 key={i}
                 onMouseEnter={() => setActive(i)}
                 onMouseLeave={() => setActive(null)}
-                onClick={() => {
-                  setSelected(i);
-                  setMainImage(galleryImages[i % galleryImages.length]);
-                }}
+                onClick={() => handleProjectSelect(i, item)}
                 animate={{
                   width:
                     isMobile || isActive || isSelected
@@ -346,7 +451,7 @@ export default function Services() {
             <Box
               component="img"
               src={mainImage}
-              alt={`${selectedProject.title} selected project view`}
+              alt={`${selectedProject?.title || "Project"} selected project view`}
               sx={{
                 width: "100vw",
                 height: { xs: 280, md: "80vh" },
@@ -370,7 +475,7 @@ export default function Services() {
               }}
               style={{ width: "100%", paddingBottom: "40px" }}
             >
-              {galleryImages.map((image, index) => {
+              {displayGalleryImages.map((image, index) => {
                 const isCurrent = mainImage === image;
                 return (
                   <SwiperSlide key={image}>
