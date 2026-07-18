@@ -1,12 +1,8 @@
 import { HttpRequestInterceptor } from "interceptor/http-request.interceptor";
-import { _axios } from "../../interceptor/http-config";
+import { _axios, _dashboardAxios } from "../../interceptor/http-config";
 
 export const _contact = {
-  post: (data, setLoading) =>
-    _axios.post(`/contact`, data).then((res) => {
-      setLoading(true);
-      return res;
-    }),
+  post: (data) => _dashboardAxios.post(`/contact`, data).then((res) => res),
 
   index: async () => {
     return _axios

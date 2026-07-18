@@ -4,6 +4,7 @@ use App\Models\HomeVideo;
 use App\Models\Industry;
 use App\Models\CompanyPortfolio;
 use App\Models\ContactFooterSetting;
+use App\Models\ContactMessage;
 use App\Models\EventInMotion;
 use App\Models\EventMotionStat;
 use App\Models\Project;
@@ -143,6 +144,46 @@ Route::get('/contact-footer-setting', function () {
             'address' => $setting->address,
             'address_url' => $setting->address_url,
         ] : null,
+    ]);
+});
+
+Route::post('/contact', function (Request $request) {
+    $validated = $request->validate([
+        'first_name' => 'required|string|max:255',
+        'email' => 'required|email|max:255',
+        'phone' => 'required|string|max:50',
+        'company_name' => 'nullable|string|max:255',
+        'client_type' => 'required|string|max:255',
+        'country_code' => 'nullable|string|max:10',
+        'budget_range' => 'nullable|string|max:255',
+        'message' => 'required|string',
+    ]);
+
+    $contactMessage = ContactMessage::create($validated);
+
+    return response()->json([
+        'data' => $contactMessage,
+        'message' => 'Contact request received successfully.',
+    ], 201);
+});
+
+Route::get('/contact-messages', function () {
+    return response()->json([
+        'data' => ContactMessage::query()
+            ->orderBy('created_at', 'desc')
+            ->get()
+            ->map(fn (ContactMessage $message) => [
+                'id' => $message->id,
+                'first_name' => $message->first_name,
+                'email' => $message->email,
+                'phone' => $message->phone,
+                'company_name' => $message->company_name,
+                'client_type' => $message->client_type,
+                'country_code' => $message->country_code,
+                'budget_range' => $message->budget_range,
+                'message' => $message->message,
+                'created_at' => $message->created_at->toDateTimeString(),
+            ]),
     ]);
 });
 

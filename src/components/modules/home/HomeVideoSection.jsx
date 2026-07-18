@@ -1,10 +1,19 @@
-import { Box, Container, Typography } from "@mui/material";
-import { motion } from "framer-motion";
+import { Box } from "@mui/material";
 import { useDashboardHomeVideo } from "hooks/dashboard/useDashboardHomeContent";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
 
 function HomeVideoSection() {
   const { data } = useDashboardHomeVideo();
   const video = data?.data;
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start start", "end start"],
+  });
+  const imageScale = useTransform(scrollYProgress, [0, 1], [1, 1.12]);
+  const imageY = useTransform(scrollYProgress, [0, 1], [0, 90]);
+  const imageOpacity = useTransform(scrollYProgress, [0, 0.85], [1, 0.55]);
 
   if (!video?.video_url) {
     return null;
@@ -13,53 +22,40 @@ function HomeVideoSection() {
   return (
     <Box
       sx={{
-        color: "white",
-        py: { xs: 6, md: 9 },
+        paddingBottom: "2dvh",
+        background: "transparent",
+        overflow: "hidden",
       }}
+      ref={ref}
     >
-      <Container maxWidth="lg">
-        {video.title && (
-          <Typography
-            variant="h4"
-            sx={{
-              textAlign: "center",
-              mb: { xs: 3, md: 4 },
-              fontWeight: 400,
-            }}
-          >
-            {video.title}
-          </Typography>
-        )}
-
+      <Box
+        component={motion.div}
+        style={{
+          scale: imageScale,
+          y: imageY,
+          opacity: imageOpacity,
+        }}
+        sx={{
+          height: "90dvh",
+          width: "100dvw",
+          display: "block",
+          objectFit: "cover",
+        }}
+      >
         <Box
-          component={motion.div}
-          initial={{ opacity: 0, y: 28 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.35 }}
-          transition={{ duration: 0.7, ease: "easeOut" }}
+          component="video"
+          src={video.video_url}
+          poster={video.poster_url || undefined}
+          playsInline
+          autoPlay
           sx={{
-            overflow: "hidden",
-            borderRadius: 1,
-            border: "1px solid rgba(255,255,255,0.18)",
-            boxShadow: "0 24px 70px rgba(0,0,0,0.26)",
-            backgroundColor: "#101010",
+            display: "block",
+            width: "100%",
+            aspectRatio: "16 / 9",
+            objectFit: "cover",
           }}
-        >
-          <Box
-            component="video"
-            src={video.video_url}
-            poster={video.poster_url || undefined}
-            controls
-            playsInline
-            sx={{
-              display: "block",
-              width: "100%",
-              aspectRatio: "16 / 9",
-              objectFit: "cover",
-            }}
-          />
-        </Box>
-      </Container>
+        />
+      </Box>
     </Box>
   );
 }

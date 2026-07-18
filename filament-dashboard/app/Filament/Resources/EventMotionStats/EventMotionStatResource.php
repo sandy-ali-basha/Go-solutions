@@ -13,12 +13,13 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use UnitEnum;
 
 class EventMotionStatResource extends Resource
 {
     protected static ?string $model = EventMotionStat::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = null;
 
     protected static ?string $navigationLabel = 'Event Motion Stats';
 
@@ -26,7 +27,7 @@ class EventMotionStatResource extends Resource
 
     protected static ?string $pluralModelLabel = 'Event Motion Stats';
 
-    protected static string|\UnitEnum|null $navigationGroup = 'Home';
+    protected static UnitEnum|string|null $navigationGroup = 'Home';
 
     public static function form(Schema $schema): Schema
     {

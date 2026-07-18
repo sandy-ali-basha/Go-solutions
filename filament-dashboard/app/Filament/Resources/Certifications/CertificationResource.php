@@ -9,6 +9,7 @@ use App\Filament\Resources\Certifications\Schemas\CertificationForm;
 use App\Filament\Resources\Certifications\Tables\CertificationsTable;
 use App\Models\Certification;
 use BackedEnum;
+use UnitEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
@@ -18,7 +19,7 @@ class CertificationResource extends Resource
 {
     protected static ?string $model = Certification::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedCheckBadge;
+    protected static string|BackedEnum|null $navigationIcon = null;
 
     protected static ?string $navigationLabel = 'Certifications';
 
@@ -28,7 +29,7 @@ class CertificationResource extends Resource
 
     protected static ?string $pluralModelLabel = 'Certifications';
 
-    protected static string|\UnitEnum|null $navigationGroup = 'Our Services';
+    protected static UnitEnum|string|null $navigationGroup = 'Our Services';
 
     public static function form(Schema $schema): Schema
     {

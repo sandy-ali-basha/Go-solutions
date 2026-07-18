@@ -4,8 +4,6 @@ import { Box, useMediaQuery } from "@mui/material";
 import { motion, useScroll, useTransform } from "framer-motion";
 
 import Seo from "components/Seo";
-
-import CaroselSection from "components/modules/home/CaroselSection.jsx";
 import ClientsIndustriesSection from "components/modules/home/ClientsIndustriesSection.jsx";
 import CompanyPortfolioSection from "components/modules/home/CompanyPortfolioSection";
 import EventSection from "components/modules/home/EventSection";
@@ -14,7 +12,6 @@ import TechSolution from "components/modules/home/TechSolution";
 
 import Reveal from "components/common/Reveal";
 import Logo3D from "components/Logo3d";
-import ContactUsSection from "components/modules/home/ContactUsSection";
 import ContactUs from "./ContactUs/page";
 
 export default function Home() {
@@ -111,7 +108,6 @@ export default function Home() {
       </Box>
 
       <Box sx={{ position: "relative", zIndex: 2 }}>
-        <CaroselSection />
         <HomeVideoSection />
         <Reveal>
           <ClientsIndustriesSection />

@@ -75,12 +75,35 @@ export default function ContactUs() {
     },
   };
 
-  const { register, handleSubmit, formState, watch } = useForm(formOptions);
+  const { register, handleSubmit, formState, watch, reset } = useForm(formOptions);
 
   const { errors } = formState;
   const selectedClientType = watch("client_type", "Agency");
 
-  const { mutate, isLoading } = useMutation((data) => createPost(data));
+  const { mutate, isLoading } = useMutation(
+    (data) => _contact.post(data),
+    {
+      onSuccess: () => {
+        reset();
+        Swal.fire({
+          icon: "success",
+          title: "Message Sent",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      },
+      onError: (error) => {
+        console.error(error);
+        Swal.fire({
+          icon: "error",
+          title: "Submission Failed",
+          text: "Please try again or contact us directly.",
+          showConfirmButton: false,
+          timer: 2000,
+        });
+      },
+    }
+  );
 
   const { data: contactData } = useContactUs();
   const { data: dashboardContactData } = useDashboardContactFooterSetting();
@@ -100,22 +123,7 @@ export default function ContactUs() {
     window.scrollTo(0, 0);
   }, []);
 
-  async function createPost(data) {
-    try {
-      await _contact.post(data);
-
-      Swal.fire({
-        icon: "success",
-        title: "Message Sent",
-        showConfirmButton: false,
-        timer: 1500,
-      });
-    } catch (err) {
-      console.log(err);
-    }
-  }
-
-  const hanldeCreate = (input) => {
+  const handleCreate = (input) => {
     mutate({
       ...input,
       country_code: countryCode,
@@ -163,7 +171,7 @@ export default function ContactUs() {
   return (
     <>
       <Seo
-        title="Contact Us"
+        title=""
         description="Contact Go Creative Solutions"
         keywords="contact"
       />
@@ -267,7 +275,7 @@ export default function ContactUs() {
             <Grid item xs={12} md={8}>
               <Box
                 component="form"
-                onSubmit={handleSubmit(hanldeCreate)}
+                onSubmit={handleSubmit(handleCreate)}
                 sx={{
                   background:"#00000015",
                   // border: "1px solid rgba(255, 91, 46, 0.18)",

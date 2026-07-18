@@ -18,7 +18,7 @@ class ContactFooterSettingResource extends Resource
 {
     protected static ?string $model = ContactFooterSetting::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = null;
 
     protected static ?string $navigationLabel = 'Contact & Footer';
 

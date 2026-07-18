@@ -10,6 +10,7 @@ use App\Filament\Resources\TechSolutionServices\Tables\TechSolutionServicesTable
 use App\Models\TechSolutionService;
 use BackedEnum;
 use Filament\Resources\Resource;
+use UnitEnum;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
@@ -18,7 +19,7 @@ class TechSolutionServiceResource extends Resource
 {
     protected static ?string $model = TechSolutionService::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = null;
 
     protected static ?string $navigationLabel = 'Tech Solution Services';
 
@@ -26,7 +27,7 @@ class TechSolutionServiceResource extends Resource
 
     protected static ?string $pluralModelLabel = 'Tech Solution Services';
 
-    protected static string|\UnitEnum|null $navigationGroup = 'Home';
+    protected static UnitEnum|string|null $navigationGroup = 'Home';
 
     public static function form(Schema $schema): Schema
     {
